@@ -1,20 +1,25 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import 'normalize.css';
 
-import PostList from '../containers/PostList';
-import Post from '../containers/Post';
+import ArticleList from '../containers/ArticleList';
+import Article from '../containers/Article';
+import ArticlePost from '../components/ArticlePost';
 
 const App = () => (
   <Router>
     <div>
-      <h2>Qiiiita</h2>
+      <Link to="/">
+        <h2>Qiiiita</h2>
+      </Link>
+      <Link to="/articles/new">投稿する</Link>
       {/*
       <Header />
       */}
       <Switch>
-        <Route exact path="/" component={PostList} />
-        <Route path="/posts/:identifier" component={Post} />
+        <Route exact path="/" component={ArticleList} />
+        <Route path="/articles/new" component={ArticlePost} />
+        <Route path="/articles/:identifier" component={Article} />
         <Route>
           <h2>Page Not Found</h2>
         </Route>
@@ -27,4 +32,3 @@ const App = () => (
 );
 
 export default App;
-

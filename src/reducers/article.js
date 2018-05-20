@@ -1,26 +1,26 @@
 import {
-  FETCH_POST_REQUEST,
-  FETCH_POST_SUCCESS,
-  FETCH_POST_FAILURE,
-} from '../actions/fetchPost';
+  FETCH_ARTICLE_REQUEST,
+  FETCH_ARTICLE_SUCCESS,
+  FETCH_ARTICLE_FAILURE,
+} from '../actions/fetchArticle';
 
 const initialState = {
-  post: {},
+  article: {},
   isFetching: false,
 };
 
-const post = (state = initialState, action) => {
+const article = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_POST_REQUEST:
+    case FETCH_ARTICLE_REQUEST:
       return Object.assign({}, state, {
         isFechting: true,
       });
-    case FETCH_POST_SUCCESS:
+    case FETCH_ARTICLE_SUCCESS:
       return Object.assign({}, state, {
-        post: action.post,
+        article: action.article,
         isFetching: false,
       });
-    case FETCH_POST_FAILURE:
+    case FETCH_ARTICLE_FAILURE:
       return Object.assign({}, state, {
         isFeching: false,
         error: action.error,
@@ -30,4 +30,4 @@ const post = (state = initialState, action) => {
   }
 };
 
-export default post;
+export default article;

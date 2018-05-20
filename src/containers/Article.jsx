@@ -2,25 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import fetchPost from '../actions/fetchPost';
+import fetchArticle from '../actions/fetchArticle';
 
-class Post extends Component {
+class Article extends Component {
   componentDidMount() {
     const { identifier } = this.props.match.params;
-    this.props.fetchPost(identifier);
+    this.props.fetchArticle(identifier);
   }
 
   render() {
-    const { post } = this.props;
+    const { article } = this.props;
     return (
       <div className="container">
-        <p>{post.title}</p>
+        <p>{article.title}</p>
       </div>
     );
   }
 }
-Post.propTypes = {
-  post: PropTypes.shape({
+Article.propTypes = {
+  article: PropTypes.shape({
     id: PropTypes.number.isRequired,
     identifier: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -33,21 +33,20 @@ Post.propTypes = {
       identifier: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  fetchPost: PropTypes.func.isRequired,
+  fetchArticle: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
-  const postStates = state.post;
-  const latestState = postStates.length > 0 ? postStates[postStates.length - 1] : postStates;
+  const articleStates = state.article;
+  const latestState = articleStates.length > 0 ? articleStates[articleStates.length - 1] : articleStates;
   return {
-    post: latestState.post,
+    article: latestState.article,
     isFetching: state.isFetching,
   };
 };
 const mapDispatchToProps = dispatch => ({
-  fetchPost: identifier => dispatch(fetchPost(identifier)),
+  fetchArticle: identifier => dispatch(fetchArticle(identifier)),
 });
 export default connect(
   mapStateToProps, mapDispatchToProps,
-)(Post);
-
+)(Article);
