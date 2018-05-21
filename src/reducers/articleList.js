@@ -27,9 +27,10 @@ const articleList = (state = initialState, action) => {
         error: action.error,
       });
     case ADD_ARTICLE:
+      state.articleList.unshift(action.article);
       return Object.assign({}, state, {
         isFetching: false,
-        articleList: state.articleList.append(action.article),
+        articleList: state.articleList,
       });
     default:
       return state;

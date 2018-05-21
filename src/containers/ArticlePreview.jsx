@@ -1,11 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ReactMarkdown from 'react-markdown';
 
+const style = {
+  box: {
+    height: '70vh',
+    border: '1px solid #E0E0E0',
+  },
+};
 const ArticlePreview = props => (
-  <div>
-    <h3>{props.title}</h3>
-    <p>{props.content}</p>
+  <div className="w-100 px-1 py-2 white" style={style.box}>
+    <h2>{props.title}</h2>
+    <ReactMarkdown source={props.content} />
   </div>
 );
 

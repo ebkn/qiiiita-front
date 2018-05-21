@@ -1,41 +1,92 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { push } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { Container, Row, Col, Button } from 'mdbreact';
+import axios from 'axios';
 
 import { editTitle, editContent } from '../actions/editArticle';
 import addArticle from '../actions/addArticle';
-import postArticle from '../lib/postArticle';
+// import postArticle from '../lib/postArticle';
 import ArticlePreview from './ArticlePreview';
 
+import { API_URL } from '../config';
+
+const POST_URL = `${API_URL}/articles`;
+
 class ArticleForm extends Component {
-  postArticle() {
-    const data = {};
-    postArticle(data)
-      .then(() => {
-        push('/');
-        this.props.addArticle(data);
-      });
+  postArticle(e) {
+    e.preventDefault();
+    const data = {
+      title: this.props.title,
+      content: this.props.content,
+    };
+    axios.post(POST_URL, { article: data })
+      .then((res) => {
+        this.props.history.push('/');
+        this.props.addArticle(res.data);
+      })
+      .catch(err =>
+        alert(err)
+      )
   }
 
   render() {
+    const style = {
+      titleInput: {
+        border: '1px solid #E0E0E0',
+        fontSize: '24px',
+        outline: 0,
+      },
+      contentTextarea: {
+        height: '70vh',
+        border: '1px solid #E0E0E0',
+        outline: 0,
+      },
+    };
     return (
       <form
-        onSubmit={() => this.postArticle()}
+        onSubmit={e => this.postArticle(e)}
       >
-        <div className="container">
+        <Container fluid className="p-0">
           <input
             type="text"
             onChange={e => this.props.editTitle(e.target.value)}
             value={this.props.title}
+            placeholder="タイトル"
+            className="w-100 px-1 py-2"
+            style={style.titleInput}
           />
-          <textArea
-            type="text"
-            onChange={e => this.props.editContent(e.target.value)}
-            value={this.props.content}
-          />
-          <ArticlePreview />
-        </div>
+        </Container>
+        <Container fluid className="px-0 py-1">
+          <Row className="w-100 mx-0">
+            <Col sm="12" md="6" className="px-0">
+              <textarea
+                type="text"
+                onChange={e => this.props.editContent(e.target.value)}
+                value={this.props.content}
+                placeholder="記事"
+                className="w-100 px-1 py-2"
+                style={style.contentTextarea}
+              />
+            </Col>
+            <Col sm="12" md="6" className="px-0">
+              <ArticlePreview />
+            </Col>
+          </Row>
+        </Container>
+        <Container fluid className="px-0 py-0">
+          <div className="d-flex py-0 w-100 justify-content-end">
+            <Button
+              type="submit"
+              disabled={(this.props.title === '' || this.props.content === '')}
+              className="py-1"
+              color="light-green"
+            >
+              投稿
+            </Button>
+          </div>
+        </Container>
       </form>
     );
   }
@@ -46,6 +97,9 @@ ArticleForm.propTypes = {
   addArticle: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -57,7 +111,7 @@ const mapDispatchToProps = dispatch => ({
   editContent: content => dispatch(editContent(content)),
   addArticle: data => dispatch(addArticle(data)),
 });
-export default connect(
+export default withRouter(connect(
   mapStateToProps, mapDispatchToProps,
-)(ArticleForm);
+)(ArticleForm));
 

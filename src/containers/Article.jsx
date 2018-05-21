@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import ReactMarkdown from 'react-markdown';
+import { Container } from 'mdbreact';
 
 import fetchArticle from '../actions/fetchArticle';
 
@@ -13,9 +15,12 @@ class Article extends Component {
   render() {
     const { article } = this.props;
     return (
-      <div className="container">
-        <p>{article.title}</p>
-      </div>
+      <Container className="white">
+        <h1 className="black-text font-weight-bold py-4">{article.title}</h1>
+        <div className="py-2 pb-4">
+          <ReactMarkdown source={article.content} />
+        </div>
+      </Container>
     );
   }
 }

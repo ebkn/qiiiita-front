@@ -1,11 +1,12 @@
 import React from 'react';
+import { Container } from 'mdbreact';
+
 import ArticleForm from '../containers/ArticleForm';
 
 const ArticlePost = () => (
-  <div className="container">
-    <h2>投稿する</h2>
+  <Container fluid>
     <ArticleForm />
-  </div>
+  </Container>
 );
 
 export default ArticlePost;
