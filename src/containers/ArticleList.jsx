@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { Container } from 'mdbreact';
 
 import fetchArticleList from '../actions/fetchArticleList';
+import ArticleInList from '../components/ArticleInList';
 
 class ArticleList extends Component {
   componentDidMount() {
@@ -12,20 +12,12 @@ class ArticleList extends Component {
   }
 
   render() {
-    const listBorder = {
-      borderTop: '1px solid #E0E0E0',
-      borderBottom: '1px solid #E0E0E0',
-    };
     return (
       <Container className="white">
-        <h4 className="px-1 py-3">投稿リスト</h4>
+        <h4 className="px-1 pt-3">投稿リスト</h4>
         <div className="w-100 px-0 py-3">
           { this.props.articleList.map(article => (
-            <div key={article.identifier} className="p-1" style={listBorder}>
-              <Link to={`/articles/${article.identifier}`}>
-                <p className="black-text">{article.title}</p>
-              </Link>
-            </div>
+            <ArticleInList article={article} key={article.identifier} />
           ))}
         </div>
       </Container>
@@ -35,12 +27,15 @@ class ArticleList extends Component {
 ArticleList.propTypes = {
   articleList: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
       identifier: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
       created_at: PropTypes.string.isRequired,
       updated_at: PropTypes.string.isRequired,
+      user: PropTypes.shape({
+        identifier: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+      }).isRequired,
     }).isRequired,
   ).isRequired,
   fetchArticleList: PropTypes.func.isRequired,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import firebase from 'firebase';
 import 'normalize.css';
 
@@ -28,17 +28,17 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={ArticleList} />
               <Route path="/login" component={Auth} />
+              <Route path="/users/:identifier" component={User} />
               <Route
-                path="/users/:userIdentifier/articles/new"
+                path="/articles/new"
                 render={() => (
-                  this.props.auth.loggedIn ? (
+                  this.props.isLoggedIn ? (
                     <ArticlePost />
                   ) : (
                     <Redirect to="/" />
                   ))}
-              />
-              <Route path="/users/:userIdentifier/articles/:identifier" component={Article} />
-              <Route path="/users/:identifier" component={User} />
+                />
+              <Route path="/articles/:identifier" component={Article} />
               <Route>
                 <h2>Page Not Found</h2>
               </Route>
@@ -52,9 +52,6 @@ class App extends Component {
 }
 App.propTypes = {
   refLogin: PropTypes.func.isRequired,
-  auth: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired,
-  }).isRequired,
 };
 
 const mapStateToProps = state => ({

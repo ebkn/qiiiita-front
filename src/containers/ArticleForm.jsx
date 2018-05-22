@@ -12,7 +12,6 @@ import ArticlePreview from './ArticlePreview';
 
 import { API_URL } from '../config';
 
-const POST_URL = `${API_URL}/articles`;
 
 class ArticleForm extends Component {
   postArticle(e) {
@@ -21,14 +20,23 @@ class ArticleForm extends Component {
       title: this.props.title,
       content: this.props.content,
     };
-    axios.post(POST_URL, { article: data })
+    axios.post(this.postURL(), { article: data })
       .then((res) => {
-        this.props.history.push('/');
+        this.backToHome();
         this.props.addArticle(res.data);
       })
       .catch(err =>
         alert(err)
       )
+  }
+
+  postURL() {
+    const userIdentifier = this.props.auth.user.identifier;
+    return `${API_URL}/users/${userIdentifier}/articles`;
+  }
+
+  backToHome() {
+    this.props.history.push('/');
   }
 
   render() {
@@ -92,6 +100,11 @@ class ArticleForm extends Component {
   }
 }
 ArticleForm.propTypes = {
+  auth: PropTypes.shape({
+    user: PropTypes.shape({
+      identifier: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
   editTitle: PropTypes.func.isRequired,
   editContent: PropTypes.func.isRequired,
   addArticle: PropTypes.func.isRequired,
@@ -103,6 +116,7 @@ ArticleForm.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  auth: state.auth,
   title: state.editingArticle.title,
   content: state.editingArticle.content,
 });

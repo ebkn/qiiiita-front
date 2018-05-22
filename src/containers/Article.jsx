@@ -8,8 +8,8 @@ import fetchArticle from '../actions/fetchArticle';
 
 class Article extends Component {
   componentDidMount() {
-    const { identifier } = this.props.match.params;
-    this.props.fetchArticle(identifier);
+    const { userIdentifier, identifier } = this.props.match.params;
+    this.props.fetchArticle(userIdentifier, identifier);
   }
 
   render() {
@@ -50,7 +50,7 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = dispatch => ({
-  fetchArticle: identifier => dispatch(fetchArticle(identifier)),
+  fetchArticle: (userIdentifier, identifier) => dispatch(fetchArticle(userIdentifier, identifier)),
 });
 export default connect(
   mapStateToProps, mapDispatchToProps,

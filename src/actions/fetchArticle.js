@@ -18,8 +18,8 @@ const fetchArticleFailure = error => ({
   error,
 });
 
-const fetchArticle = identifier => (dispatch) => {
-  const FETCH_ARTICLE_URL = `${API_URL}/articles/${identifier}`;
+const fetchArticle = (userIdentifier, identifier) => (dispatch) => {
+  const FETCH_ARTICLE_URL = `${API_URL}/users/${userIdentifier}/articles/${identifier}`;
   dispatch(fetchArticleRequest());
   return axios.get(FETCH_ARTICLE_URL)
     .then(res =>
