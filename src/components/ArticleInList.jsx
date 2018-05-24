@@ -27,7 +27,6 @@ const ArticleInList = ({ article }) => {
       <Link to={userLink} className="mr-4">
         <img
           src={article.user.photoURL}
-          alt={'image'}
           className="d-block"
           style={styles.userImage}
         />

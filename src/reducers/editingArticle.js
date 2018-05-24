@@ -2,6 +2,7 @@ import {
   EDIT_TITLE,
   EDIT_CONTENT,
 } from '../actions/editArticle';
+import { SET_ARTICLE } from '../actions/setArticle';
 
 const initialState = {
   title: '',
@@ -16,6 +17,11 @@ const editingArticle = (state = initialState, action) => {
       });
     case EDIT_CONTENT:
       return Object.assign({}, state, {
+        content: action.content,
+      });
+    case SET_ARTICLE:
+      return Object.assign({}, state, {
+        title: action.title,
         content: action.content,
       });
     default:

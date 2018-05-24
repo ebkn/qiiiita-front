@@ -7,27 +7,51 @@ import axios from 'axios';
 
 import { editTitle, editContent } from '../actions/editArticle';
 import addArticle from '../actions/addArticle';
-// import postArticle from '../lib/postArticle';
 import ArticlePreview from './ArticlePreview';
 
 import { API_URL } from '../config';
 
-
 class ArticleForm extends Component {
-  postArticle(e) {
-    e.preventDefault();
-    const data = {
-      title: this.props.title,
-      content: this.props.content,
-    };
-    axios.post(this.postURL(), { article: data })
+  parameters() {
+    return ({
+      article: {
+        title: this.props.title,
+        content: this.props.content,
+      },
+    });
+  }
+
+  postArticle() {
+    axios.post(this.postURL(), this.parameters())
       .then((res) => {
         this.backToHome();
         this.props.addArticle(res.data);
-      })
-      .catch(err =>
-        alert(err)
+      }).catch(error =>
+        alert(error)
       )
+  }
+
+  updateArticle() {
+    axios.patch(this.articleURL(), this.parameters())
+      .then(() =>
+        this.props.history.push(this.articleURL()),
+      ).catch(error =>
+        alert(error)
+      )
+  }
+
+  submitArticle(e) {
+    e.preventDefault();
+    switch (this.props.formType) {
+      case 'create':
+        this.postArticle();
+        break;
+      case 'update':
+        this.updateArticle();
+        break;
+      default:
+        alert('invalid submit type');
+    }
   }
 
   postURL() {
@@ -35,8 +59,29 @@ class ArticleForm extends Component {
     return `${API_URL}/users/${userIdentifier}/articles`;
   }
 
+  articleURL() {
+    const userIdentifier = this.props.auth.user.identifier;
+    const articleIdentifier = this.props.match.params.identifier;
+    return `${API_URL}/users/${userIdentifier}/articles/${articleIdentifier}`;
+  }
+
   backToHome() {
     this.props.history.push('/');
+  }
+
+  submitText() {
+    switch (this.props.formType) {
+      case 'create':
+        return '投稿';
+      case 'update':
+        return '更新';
+      default:
+        return 'エラー';
+    }
+  }
+
+  formSubmitable() {
+    return (this.props.title !== '' && this.props.content !== '');
   }
 
   render() {
@@ -54,7 +99,7 @@ class ArticleForm extends Component {
     };
     return (
       <form
-        onSubmit={e => this.postArticle(e)}
+        onSubmit={e => this.submitArticle(e)}
       >
         <Container fluid className="p-0">
           <input
@@ -87,11 +132,11 @@ class ArticleForm extends Component {
           <div className="d-flex py-0 w-100 justify-content-end">
             <Button
               type="submit"
-              disabled={(this.props.title === '' || this.props.content === '')}
+              disabled={!this.formSubmitable()}
               className="py-1"
               color="light-green"
             >
-              投稿
+              {this.submitText()}
             </Button>
           </div>
         </Container>
@@ -100,6 +145,12 @@ class ArticleForm extends Component {
   }
 }
 ArticleForm.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      identifier: PropTypes.string.isRequired,
+      userIdentifier: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
   auth: PropTypes.shape({
     user: PropTypes.shape({
       identifier: PropTypes.string.isRequired,
@@ -113,6 +164,7 @@ ArticleForm.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  formType: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({

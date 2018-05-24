@@ -20,7 +20,7 @@ const loginSuccess = data => ({
     photoURL: data.photoURL,
   },
 });
-const loginFailureAction = error => ({
+const loginFailure = error => ({
   type: LOGIN_FAILURE,
   error,
 });
@@ -35,13 +35,9 @@ export const login = user => (dispatch) => {
     .then(res =>
       dispatch(loginSuccess(res.data)),
     ).catch(err =>
-      dispatch(loginFailureAction(err)),
+      dispatch(loginFailure(err)),
     )
 };
-
-export const loginFailure = error => dispatch => (
-  dispatch(loginFailureAction(error))
-);
 
 export const logout = () => dispatch => (
   dispatch(logoutAction())

@@ -2,27 +2,34 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Navbar, NavbarBrand, NavLink } from 'mdbreact';
+import { Navbar, NavbarBrand, NavLink, Collapse, Button } from 'mdbreact';
+
+import HeaderAvatarButton from '../containers/HeaderAvatarButton';
 
 const Header = (props) => {
   const { loggedIn, user } = props.auth;
-  const userLink = {
-    to: loggedIn ? `/users/${user.identifier}` : '/login',
-    text: loggedIn ? user.name : 'ログイン',
-  };
   return (
     <Navbar color="green" light className="py-0">
-      <NavbarBrand>
+      <NavbarBrand className="py-1">
         <NavLink to="/" className="white-text">Qiiiita</NavLink>
       </NavbarBrand>
-      <div className="d-flex justify-content-end">
-        <Link to={`/users/${user.identifier}/articles/new`} className="white-text px-2">
-            投稿する
-        </Link>
-        <Link to={userLink.to} className="white-text px-2">
-          {userLink.text}
-        </Link>
-      </div>
+      {(() => (
+        loggedIn ? (
+          <div className="m-0 p-0 d-flex justify-content-end">
+            <Link
+              to={`/users/${user.identifier}/articles/new`}
+              className="white-text px-2"
+            >
+              投稿する
+            </Link>
+            <HeaderAvatarButton user={user} />
+          </div>
+        ) : (
+          <Link to="/login" className="white-text">
+            ログイン
+          </Link>
+        )
+      ))()}
     </Navbar>
   );
 };

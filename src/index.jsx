@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import firebase from 'firebase';
 
-import App from './components/App';
+import App from './containers/App';
 import rootReducer from './reducers/rootReducer';
 import { config } from '../firebase/config';
 
