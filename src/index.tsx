@@ -1,10 +1,10 @@
-import React from 'react';
+import * as React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+import * as thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 
 import App from './containers/App';
 import rootReducer from './reducers/rootReducer';
@@ -14,13 +14,12 @@ export const firebaseApp = firebase.initializeApp(config);
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(thunk)),
+  composeWithDevTools(applyMiddleware(thunk.default)),
 );
 
 render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.getElementById('root'),
+  document.getElementById('root') as HTMLElement,
 );
-

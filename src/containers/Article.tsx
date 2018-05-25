@@ -1,14 +1,39 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { Dispatch } from 'redux';
 import { withRouter } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
-import { Container, Button } from 'mdbreact';
+import * as ReactMarkdown from 'react-markdown';
 
 import fetchArticle from '../actions/fetchArticle';
 import setArticle from '../actions/setArticle';
 
-class Article extends Component {
+interface Article {
+  identifier: string;
+  title: string;
+  content: string;
+  created_at: string;
+  updated_at: string;
+}
+interface Props {
+  match: {
+    params: {
+      userIdentifier: string;
+      identifier: string;
+    };
+  };
+  history: {
+    push(path: string): void;
+  };
+  auth: {
+    user: {
+      identifier: string;
+    };
+  };
+  article: Article;
+  fetchArticle(userIdentifier: string, identifier: string): void;
+  setArticle(article: Article): void;
+}
+class Article extends React.Component<Props> {
   componentDidMount() {
     const { userIdentifier, identifier } = this.props.match.params;
     this.props.fetchArticle(userIdentifier, identifier);
@@ -25,7 +50,7 @@ class Article extends Component {
     return `/users/${userIdentifier}/articles/${identifier}/edit`;
   }
 
-  moveToEditPage(e) {
+  moveToEditPage(e: React.FormEvent<HTMLInputElement>) {
     e.preventDefault();
     this.props.setArticle(this.props.article);
     this.props.history.push(this.editArticleURL());
@@ -34,50 +59,25 @@ class Article extends Component {
   render() {
     const { article } = this.props;
     return (
-      <Container className="white">
+      <div className="container bg-white">
         {(() => (
           this.editable() ? (
-            <Button
+            <button
               color="green"
               onClick={e => this.moveToEditPage(e)}
             >
               編集
-            </Button>
+            </button>
           ) : ('')
         ))()}
         <h1 className="black-text font-weight-bold py-4">{article.title}</h1>
         <div className="py-2 pb-4">
           <ReactMarkdown source={article.content} />
         </div>
-      </Container>
+      </div>
     );
   }
 }
-Article.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      userIdentifier: PropTypes.string.isRequired,
-      identifier: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-  auth: PropTypes.shape({
-    user: PropTypes.shape({
-      identifier: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  article: PropTypes.shape({
-    identifier: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-    created_at: PropTypes.string.isRequired,
-    updated_at: PropTypes.string.isRequired,
-  }).isRequired,
-  fetchArticle: PropTypes.func.isRequired,
-  setArticle: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = (state) => {
   const articleStates = state.article;
@@ -88,9 +88,11 @@ const mapStateToProps = (state) => {
     isFetching: state.isFetching,
   };
 };
-const mapDispatchToProps = dispatch => ({
-  fetchArticle: (userIdentifier, identifier) => dispatch(fetchArticle(userIdentifier, identifier)),
-  setArticle: article => dispatch(setArticle(article)),
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  fetchArticle: (userIdentifier: string, identifier: string) => (
+    dispatch(fetchArticle(userIdentifier, identifier))
+  ),
+  setArticle: (article: Article) => dispatch(setArticle(article)),
 });
 export default withRouter(connect(
   mapStateToProps, mapDispatchToProps,

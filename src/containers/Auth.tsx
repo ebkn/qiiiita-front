@@ -1,34 +1,32 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import firebase from 'firebase';
+import * as React from 'react';
+import * as firebase from 'firebase';
 import { connect } from 'react-redux';
-import { Container, Button } from 'mdbreact';
 
 import { logout } from '../actions/auth';
 
-const Auth = props => (
-  <Container className="white">
-    <Button
+interface Props {
+  auth: {
+    loggedIn: boolean;
+  };
+  doLogin(): void;
+  doLogout(): void;
+}
+const Auth: React.StatelessComponent<Props> = props => (
+  <div className="container bg-white">
+    <button
       onClick={props.doLogin}
       disabled={props.auth.loggedIn}
     >
       Login
-    </Button>
-    <Button
+    </button>
+    <button
       onClick={props.doLogout}
       disabled={!props.auth.loggedIn}
     >
       Logout
-    </Button>
-  </Container>
+    </button>
+  </div>
 );
-Auth.propTypes = {
-  auth: PropTypes.shape({
-    loggedIn: PropTypes.bool.isRequired,
-  }).isRequired,
-  doLogin: PropTypes.func.isRequired,
-  doLogout: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => ({
   auth: state.auth,
@@ -42,10 +40,9 @@ const mapDispatchToProps = dispatch => ({
     firebase.auth().signOut()
       .then(() =>
         dispatch(logout())
-      )
+      );
   },
 });
 export default connect(
   mapStateToProps, mapDispatchToProps,
 )(Auth);
-

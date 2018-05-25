@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'mdbreact';
 import axios from 'axios';
 
 import { editTitle, editContent } from '../actions/editArticle';
@@ -11,7 +10,33 @@ import ArticlePreview from './ArticlePreview';
 
 import { API_URL } from '../config';
 
-class ArticleForm extends Component {
+interface Article {
+  title: string;
+  content: string;
+}
+interface Props {
+  match: {
+    params: {
+      identifier: string;
+      userIdentifier: string;
+    };
+  };
+  history: {
+    push(path: string): void;
+  };
+  auth: {
+    user: {
+      identifier: string;
+    };
+  };
+  title: string;
+  content: string;
+  formType: string;
+  editTitle(title: string): void;
+  editContent(content: string): void;
+  addArticle(article: Article): void;
+}
+class ArticleForm extends React.Component<Props> {
   parameters() {
     return ({
       article: {
@@ -28,7 +53,7 @@ class ArticleForm extends Component {
         this.props.addArticle(res.data);
       }).catch(error =>
         alert(error)
-      )
+      );
   }
 
   updateArticle() {
@@ -37,10 +62,10 @@ class ArticleForm extends Component {
         this.props.history.push(this.articleURL()),
       ).catch(error =>
         alert(error)
-      )
+      );
   }
 
-  submitArticle(e) {
+  submitArticle(e: React.FormEvent<HTMLInputElement>) {
     e.preventDefault();
     switch (this.props.formType) {
       case 'create':
@@ -101,7 +126,7 @@ class ArticleForm extends Component {
       <form
         onSubmit={e => this.submitArticle(e)}
       >
-        <Container fluid className="p-0">
+        <div className="container-fluid p-0">
           <input
             type="text"
             onChange={e => this.props.editTitle(e.target.value)}
@@ -110,74 +135,49 @@ class ArticleForm extends Component {
             className="w-100 px-1 py-2"
             style={style.titleInput}
           />
-        </Container>
-        <Container fluid className="px-0 py-1">
-          <Row className="w-100 mx-0">
-            <Col sm="12" md="6" className="px-0">
+        </div>
+        <div className="container-fluid px-0 py-1">
+          <div className="row w-100 mx-0">
+            <div className="col s-12 m-6 px-0">
               <textarea
-                type="text"
                 onChange={e => this.props.editContent(e.target.value)}
                 value={this.props.content}
                 placeholder="記事"
                 className="w-100 px-1 py-2"
                 style={style.contentTextarea}
               />
-            </Col>
-            <Col sm="12" md="6" className="px-0">
+            </div>
+            <div className="col s-12 m-6 px-0">
               <ArticlePreview />
-            </Col>
-          </Row>
-        </Container>
-        <Container fluid className="px-0 py-0">
+            </div>
+          </div>
+        </div>
+        <div className="container-fluid px-0 py-0">
           <div className="d-flex py-0 w-100 justify-content-end">
-            <Button
+            <button
               type="submit"
               disabled={!this.formSubmitable()}
               className="py-1"
               color="light-green"
             >
               {this.submitText()}
-            </Button>
+            </button>
           </div>
-        </Container>
+        </div>
       </form>
     );
   }
 }
-ArticleForm.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      identifier: PropTypes.string.isRequired,
-      userIdentifier: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-  auth: PropTypes.shape({
-    user: PropTypes.shape({
-      identifier: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-  editTitle: PropTypes.func.isRequired,
-  editContent: PropTypes.func.isRequired,
-  addArticle: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-  formType: PropTypes.string.isRequired,
-};
-
 const mapStateToProps = state => ({
   auth: state.auth,
   title: state.editingArticle.title,
   content: state.editingArticle.content,
 });
-const mapDispatchToProps = dispatch => ({
-  editTitle: title => dispatch(editTitle(title)),
-  editContent: content => dispatch(editContent(content)),
-  addArticle: data => dispatch(addArticle(data)),
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  editTitle: (title: string) => dispatch(editTitle(title)),
+  editContent: (content: string) => dispatch(editContent(content)),
+  addArticle: (data: Article) => dispatch(addArticle(data)),
 });
 export default withRouter(connect(
   mapStateToProps, mapDispatchToProps,
 )(ArticleForm));
-

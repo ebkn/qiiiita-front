@@ -12,16 +12,16 @@ const initialState = {
 const article = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ARTICLE_REQUEST:
-      return Object.assign({}, state, {
+      return (Object as any).assign({}, state, {
         isFechting: true,
       });
     case FETCH_ARTICLE_SUCCESS:
-      return Object.assign({}, state, {
+      return (Object as any).assign({}, state, {
         article: action.article,
         isFetching: false,
       });
     case FETCH_ARTICLE_FAILURE:
-      return Object.assign({}, state, {
+      return (Object as any).assign({}, state, {
         isFeching: false,
         error: action.error,
       });

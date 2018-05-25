@@ -21,7 +21,7 @@ const auth = (state = initialState, action) => {
     case LOGIN_REQUEST:
       return state;
     case LOGIN_SUCCESS:
-      return Object.assign({}, state, {
+      return (Object as any).assign({}, state, {
         loggedIn: true,
         user: {
           identifier: action.user.identifier,
@@ -32,12 +32,12 @@ const auth = (state = initialState, action) => {
         },
       });
     case LOGIN_FAILURE:
-      return Object.assign({}, state, {
+      return (Object as any).assign({}, state, {
         loggedIn: false,
         error: action.error,
       });
     case LOGOUT:
-      return Object.assign({}, state, {
+      return (Object as any).assign({}, state, {
         loggedIn: false,
         user: {
           identifier: '',
@@ -53,4 +53,3 @@ const auth = (state = initialState, action) => {
 };
 
 export default auth;
-

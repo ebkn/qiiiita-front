@@ -12,15 +12,15 @@ const initialState = {
 const editingArticle = (state = initialState, action) => {
   switch (action.type) {
     case EDIT_TITLE:
-      return Object.assign({}, state, {
+      return (Object as any).assign({}, state, {
         title: action.title,
       });
     case EDIT_CONTENT:
-      return Object.assign({}, state, {
+      return (Object as any).assign({}, state, {
         content: action.content,
       });
     case SET_ARTICLE:
-      return Object.assign({}, state, {
+      return (Object as any).assign({}, state, {
         title: action.title,
         content: action.content,
       });
@@ -30,4 +30,3 @@ const editingArticle = (state = initialState, action) => {
 };
 
 export default editingArticle;
-

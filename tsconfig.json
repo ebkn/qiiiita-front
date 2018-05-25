@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "noImplicitAny": false,
+    "removeComments": true
+  },
+  "awesomeTypescriptLoaderOptions": {
+    "useCache": true,
+    "useBabel": true,
+    "babelOptions": {
+      "babelrc": false,
+      "presets": [
+        [
+          "env", {
+            "targets": "last 2 versions, ie 11",
+            "modules": false
+          }
+        ]
+      ]
+    },
+    "babelCore": "@babel/core",
+    "reportFiles": [
+      "src/**/*.{ts,tsx}"
+    ]
+  }
+}

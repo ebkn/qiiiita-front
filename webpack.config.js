@@ -1,8 +1,9 @@
 const path = require('path');
+const { CheckerPlugin } = require('awesome-typescript-loader');
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.jsx',
+  entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'public'),
     filename: 'main.js',
@@ -11,13 +12,10 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(tsx?|js)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['env', 'react'],
-          },
+          loader: 'awesome-typescript-loader',
         },
       },
       {
@@ -37,12 +35,13 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.ts', '.tsx', '.js'],
   },
   devtool: 'source-map',
   devServer: {
     contentBase: path.resolve(__dirname, 'public'),
     historyApiFallback: true,
   },
+  plugins: [new CheckerPlugin()]
 };
 

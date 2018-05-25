@@ -1,12 +1,11 @@
-import React from 'react';
-import { Container } from 'mdbreact';
+import * as React from 'react';
 
 import ArticleForm from '../containers/ArticleForm';
 
 const ArticleEdit = () => (
-  <Container fluid>
+  <div className="container fluid">
     <ArticleForm formType="update" />
-  </Container>
+  </div>
 );
 
 export default ArticleEdit;
