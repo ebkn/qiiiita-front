@@ -3,7 +3,7 @@ import * as firebase from 'firebase';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { withRouter, Link } from 'react-router-dom';
-import * as styled from 'styled-components';
+import styledComponents from 'styled-components';
 
 import { logout } from '../actions/auth';
 
@@ -23,36 +23,18 @@ interface State {
   collapse: boolean;
 }
 
-const UserImage = styled.img`
-  width: '30px';
-  height: '30px';
-  border: 'none';
-  borderRadius: '3px';
-`;
-const Button = styled.div`
-  position: 'absolute';
-`;
-const Menu = styled.div`
-  position: 'relative';
-  top: '10px';
-  left: '-80px';
-  width: '120px';
-  border: '1px solid #E0E0E0';
-  borderRadius: '3px';
-`;
-
 class HeaderAvatarButton extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { collapse: false };
   }
 
-  toggleUserMenu(e: React.FormEvent<HTMLInputElement>) {
+  toggleUserMenu(e: React.FormEvent<HTMLAnchorElement>) {
     e.preventDefault();
     this.setState({ collapse: !this.state.collapse });
   }
 
-  logout(e: React.FormEvent<HTMLInputElement>) {
+  logout(e: React.FormEvent<HTMLAnchorElement>) {
     e.preventDefault();
     this.props.logout();
     this.props.history.push('/');
@@ -68,7 +50,7 @@ class HeaderAvatarButton extends React.Component<Props, State> {
         >
           <UserImage src={user.photoURL} className="d-block" />
         </a>
-        <Button isOpen={this.state.collapse}>
+        <Button>
           <Menu className="white grey-text px-2">
             <Link
               to={`/users/${user.identifier}`}
@@ -88,6 +70,24 @@ class HeaderAvatarButton extends React.Component<Props, State> {
     );
   }
 }
+
+const UserImage = styledComponents.img`
+  width: '30px';
+  height: '30px';
+  border: 'none';
+  borderRadius: '3px';
+`;
+const Button = styledComponents.div`
+  position: 'absolute';
+`;
+const Menu = styledComponents.div`
+  position: 'relative';
+  top: '10px';
+  left: '-80px';
+  width: '120px';
+  border: '1px solid #E0E0E0';
+  borderRadius: '3px';
+`;
 
 const mapStateToProps = () => ({});
 const mapDispatchToProps = (dispatch: Dispatch) => ({

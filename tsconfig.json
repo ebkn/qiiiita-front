@@ -2,7 +2,8 @@
   "compilerOptions": {
     "jsx": "react",
     "noImplicitAny": false,
-    "removeComments": true
+    "removeComments": true,
+    "allowJs": true,
   },
   "awesomeTypescriptLoaderOptions": {
     "useCache": true,

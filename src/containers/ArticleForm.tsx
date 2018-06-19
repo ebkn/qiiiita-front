@@ -65,7 +65,7 @@ class ArticleForm extends React.Component<Props> {
       );
   }
 
-  submitArticle(e: React.FormEvent<HTMLInputElement>) {
+  submitArticle(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     switch (this.props.formType) {
       case 'create':

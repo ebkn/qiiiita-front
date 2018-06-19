@@ -1,17 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import * as styled from 'styled-components';
-
-const BorderedComponent = styled.div`
-  borderTop: '1px solid #E0E0E0';
-  borderBottom: '1px solid #E0E0E0';
-`;
-const UserImage = styled.img`
-  width: '40px';
-  height: '40px';
-  border: 'none';
-  borderRadius: '3px';
-`;
+import styledComponents from 'styled-components';
 
 interface Article {
   identifier: string;
@@ -48,5 +37,16 @@ const ArticleInList: React.StatelessComponent<Props> = ({ article }) => {
     </BorderedComponent>
   );
 };
+
+const BorderedComponent = styledComponents.div`
+  borderTop: '1px solid #E0E0E0';
+  borderBottom: '1px solid #E0E0E0';
+`;
+const UserImage = styledComponents.img`
+  width: '40px';
+  height: '40px';
+  border: 'none';
+  borderRadius: '3px';
+`;
 
 export default ArticleInList;

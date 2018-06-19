@@ -50,7 +50,7 @@ class Article extends React.Component<Props> {
     return `/users/${userIdentifier}/articles/${identifier}/edit`;
   }
 
-  moveToEditPage(e: React.FormEvent<HTMLInputElement>) {
+  moveToEditPage(e: React.FormEvent<HTMLButtonElement>) {
     e.preventDefault();
     this.props.setArticle(this.props.article);
     this.props.history.push(this.editArticleURL());
