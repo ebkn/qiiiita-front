@@ -48,14 +48,23 @@ class User extends React.Component<Props> {
 }
 
 interface StateProps {
-  auth: Props.auth;
-  user: Props.user;
-  isFetching: Props.isFetching;
+  auth: {
+    user: {
+      uid: string;
+    };
+  };
+  user: User;
+  match: {
+    params: {
+      identifier: string;
+    };
+  };
+  isFetching: boolean;
 }
 interface DispatchProps {
-  fetchUser: Props.fetchUser;
+  fetchUser(identifier: string): void;
 }
-const mapStateToProps = (state): StateProps  => {
+const mapStateToProps = (state) => {
   const userStates = state.user;
   const latestState = userStates.length > 0 ? userStates[userStates.length - 1] : userStates;
   return {
