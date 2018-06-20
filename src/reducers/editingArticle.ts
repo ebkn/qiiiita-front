@@ -1,32 +1,24 @@
-import {
-  EDIT_TITLE,
-  EDIT_CONTENT,
-} from '../actions/editArticle';
-import { SET_ARTICLE } from '../actions/setArticle';
+import { reducerWithInitialState } from 'typescript-fsa-reducers';
 
-const initialState = {
+import { editingArticleActions } from '../actions/editingArticle';
+
+export interface EditingArticleState {
+  title: string;
+  content: string;
+}
+
+const initialState: EditingArticleState = {
   title: '',
   content: '',
 };
 
-const editingArticle = (state = initialState, action) => {
-  switch (action.type) {
-    case EDIT_TITLE:
-      return (Object as any).assign({}, state, {
-        title: action.title,
-      });
-    case EDIT_CONTENT:
-      return (Object as any).assign({}, state, {
-        content: action.content,
-      });
-    case SET_ARTICLE:
-      return (Object as any).assign({}, state, {
-        title: action.title,
-        content: action.content,
-      });
-    default:
-      return state;
-  }
-};
-
-export default editingArticle;
+export const editingArticleReducer = reducerWithInitialState(initialState)
+  .case(editingArticleActions.updateTitle, (state, title) => {
+    return  (Object as any).assign({}, state, { title });
+  })
+  .case(editingArticleActions.updateContent, (state, content) => {
+    return  (Object as any).assign({}, state, { content });
+  })
+  .case(editingArticleActions.setArticle, (state, { title, content }) => {
+    return  (Object as any).assign({}, state, { title, content });
+  });

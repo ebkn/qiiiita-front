@@ -2,26 +2,24 @@ import * as React from 'react';
 import * as firebase from 'firebase';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, RouteComponentProps, Link } from 'react-router-dom';
 import styledComponents from 'styled-components';
 
-import { logout } from '../actions/auth';
+import { RootState } from '../state';
+import { authActions, CurrentUser } from '../actions/auth';
 
-interface User {
-  identifier: string;
-  name: string;
-  photoURL: string;
-}
-interface Props {
+interface OwnProps {
+  currentUser: CurrentUser;
   history: {
     push(path: string): void;
   };
-  user: User;
-  logout(): void;
 }
 interface State {
   collapse: boolean;
 }
+interface PathTypes {}
+type Props = OwnProps & RouteComponentProps<PathTypes> &
+  ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 class HeaderAvatarButton extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -29,31 +27,31 @@ class HeaderAvatarButton extends React.Component<Props, State> {
     this.state = { collapse: false };
   }
 
-  toggleUserMenu(e: React.FormEvent<HTMLAnchorElement>) {
+  public toggleUserMenu(e: React.FormEvent<HTMLAnchorElement>) {
     e.preventDefault();
     this.setState({ collapse: !this.state.collapse });
   }
 
-  logout(e: React.FormEvent<HTMLAnchorElement>) {
+  public logout(e: React.FormEvent<HTMLAnchorElement>) {
     e.preventDefault();
     this.props.logout();
     this.props.history.push('/');
   }
 
-  render() {
-    const { user } = this.props;
+  public render() {
+    const { currentUser } = this.props.auth;
     return (
       <div>
         <a
           onClick={e => this.toggleUserMenu(e)}
           className="white-text d-block px-2"
         >
-          <UserImage src={user.photoURL} className="d-block" />
+          <UserImage src={currentUser.photoURL} className="d-block" />
         </a>
         <Button>
           <Menu className="white grey-text px-2">
             <Link
-              to={`/users/${user.identifier}`}
+              to={`/users/${currentUser.identifier}`}
               className="d-block py-2 grey-text"
             >
               <p className="m-0">マイページ</p>
@@ -89,12 +87,14 @@ const Menu = styledComponents.div`
   borderRadius: '3px';
 `;
 
-const mapStateToProps = () => ({});
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapStateToProps = (state: RootState) => ({
+  auth: state.auth,
+});
+const mapDispatchToProps = (dispatch: Dispatch<any, RootState>) => ({
   logout: () => {
     firebase.auth().signOut()
       .then(() =>
-        dispatch(logout())
+        dispatch(authActions.logout({}))
       );
   },
 });

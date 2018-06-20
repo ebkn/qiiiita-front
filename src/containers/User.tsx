@@ -1,44 +1,36 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { Action } from 'typescript-fsa';
+import axios from 'axios';
 
-import fetchUser from '../actions/fetchUser';
+import { RootState } from '../state';
+import { userAsyncActions } from '../actions/user';
 
-interface User {
-  uid: string;
-  name: string;
-  identifier: string;
-  email: string;
-  photoURL: string;
-}
-interface Props {
-  auth: {
-    user: {
-      uid: string;
-    };
-  };
-  user: User;
+import { API_URL } from '../config';
+
+interface OwnProps {
   match: {
     params: {
       identifier: string;
     };
   };
-  fetchUser(identifier: string): void;
 }
+type Props = OwnProps & ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 class User extends React.Component<Props> {
-  componentDidMount() {
+  public componentDidMount() {
     const { identifier } = this.props.match.params;
-    this.props.fetchUser(identifier);
+    this.props.doFetchUser(identifier);
   }
 
-  isLoggedInUser() {
+  public isLoggedInUser() {
     const { auth, user } = this.props;
-    return auth.user.uid === user.uid;
+    return auth.currentUser.uid === user.user.uid;
   }
 
-  render() {
-    const { user } = this.props;
+  public render() {
+    const { user } = this.props.user;
     return (
       <div className="container bg-white">
         <h1>{user.name}</h1>
@@ -47,34 +39,25 @@ class User extends React.Component<Props> {
   }
 }
 
-interface StateProps {
-  auth: {
-    user: {
-      uid: string;
-    };
-  };
-  user: User;
-  match: {
-    params: {
-      identifier: string;
-    };
-  };
-  isFetching: boolean;
-}
-interface DispatchProps {
-  fetchUser(identifier: string): void;
-}
-const mapStateToProps = (state) => {
-  const userStates = state.user;
-  const latestState = userStates.length > 0 ? userStates[userStates.length - 1] : userStates;
-  return {
-    auth: state.auth,
-    user: latestState.user,
-    isFetching: state.isFetching,
-  };
-};
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-  fetchUser: (identifier: string) => dispatch(fetchUser(identifier)),
+const mapStateToProps = (state: RootState) => ({
+  auth: state.auth,
+  user: state.user,
+});
+const mapDispatchToProps = (dispatch: Dispatch<any, RootState>) => ({
+  doFetchUser: (identifier: string) => {
+    dispatch(userAsyncActions.startedFetch({}));
+    const FETCH_USER_URL = `${API_URL}/users/${identifier}`;
+    axios.get(FETCH_USER_URL)
+      .then(res =>
+        dispatch(userAsyncActions.doneFetch({
+          params: {}, result: { user: res.data },
+        })),
+      ).catch(error =>
+        dispatch(userAsyncActions.failedFetch({
+          params: {}, error: { error },
+        })),
+      );
+  },
 });
 export default connect(
   mapStateToProps, mapDispatchToProps,

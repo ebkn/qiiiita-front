@@ -1,3 +1,4 @@
 /node_modules
 /firebase/config.js
 /.awcache/
+yarn-error.log

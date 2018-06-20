@@ -1,55 +1,38 @@
-import {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_FAILURE,
-  LOGOUT,
-} from '../actions/auth';
+import { reducerWithInitialState } from 'typescript-fsa-reducers';
 
-const initialState = {
+import { CurrentUser, authAsyncActions, authActions } from '../actions/auth';
+
+export interface AuthState {
+  loggedIn: boolean;
+  currentUser: CurrentUser | null;
+}
+
+const initialState: AuthState = {
   loggedIn: false,
-  user: {
-    identifier: '',
-    name: '',
-    uid: '',
-    email: '',
-    photoURL: '',
-  },
+  currentUser: null,
 };
 
-const auth = (state = initialState, action) => {
-  switch (action.type) {
-    case LOGIN_REQUEST:
-      return state;
-    case LOGIN_SUCCESS:
-      return (Object as any).assign({}, state, {
-        loggedIn: true,
-        user: {
-          identifier: action.user.identifier,
-          name: action.user.name,
-          uid: action.user.uid,
-          email: action.user.email,
-          photoURL: action.user.photoURL,
-        },
-      });
-    case LOGIN_FAILURE:
-      return (Object as any).assign({}, state, {
-        loggedIn: false,
-        error: action.error,
-      });
-    case LOGOUT:
-      return (Object as any).assign({}, state, {
-        loggedIn: false,
-        user: {
-          identifier: '',
-          name: '',
-          uid: '',
-          email: '',
-          photoURL: '',
-        },
-      });
-    default:
-      return state;
-  }
-};
-
-export default auth;
+export const authReducer = reducerWithInitialState(initialState)
+  .case(authAsyncActions.startedLogin, (state, {}) => {
+    return (Object as any).assign({}, state, {
+      loggedIn: false,
+    });
+  })
+  .case(authAsyncActions.doneLogin, (state, payload) => {
+    return (Object as any).assign({}, state, {
+      currentUser: payload.result.currentUser,
+      loggedIn: true,
+    });
+  })
+  .case(authAsyncActions.failedLogin, (state, payload) => {
+    return (Object as any).assign({}, state, {
+      error: payload.error.error,
+      loggedIn: false,
+    });
+  })
+  .case(authActions.logout, (state) => {
+    return (Object as any).assign({}, state, {
+      loggedIn: false,
+      currentUser: null,
+    });
+  });

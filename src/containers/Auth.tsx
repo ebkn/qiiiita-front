@@ -1,26 +1,26 @@
 import * as React from 'react';
 import * as firebase from 'firebase';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-import { logout } from '../actions/auth';
+import { RootState } from '../state';
+import { authActions } from '../actions/auth';
 
-interface Props {
-  auth: {
-    loggedIn: boolean;
-  };
-  doLogin(): void;
-  doLogout(): void;
-}
-const Auth: React.StatelessComponent<Props> = props => (
+interface PathTypes {}
+type Props = RouteComponentProps<PathTypes> &
+  ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+
+const Auth: React.SFC<Props> = (props: Props) => (
   <div className="container bg-white">
     <button
-      onClick={props.doLogin}
+      onClick={props.login}
       disabled={props.auth.loggedIn}
     >
       Login
     </button>
     <button
-      onClick={props.doLogout}
+      onClick={props.logout}
       disabled={!props.auth.loggedIn}
     >
       Logout
@@ -28,21 +28,21 @@ const Auth: React.StatelessComponent<Props> = props => (
   </div>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState) => ({
   auth: state.auth,
 });
-const mapDispatchToProps = dispatch => ({
-  doLogin: () => {
+const mapDispatchToProps = (dispatch: Dispatch<any, RootState>) => ({
+  login: () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider);
   },
-  doLogout: () => {
+  logout: () => {
     firebase.auth().signOut()
       .then(() =>
-        dispatch(logout())
+        dispatch(authActions.logout({}))
       );
   },
 });
-export default connect(
+export default withRouter(connect(
   mapStateToProps, mapDispatchToProps,
-)(Auth);
+)(Auth));

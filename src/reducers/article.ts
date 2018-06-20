@@ -1,33 +1,32 @@
-import {
-  FETCH_ARTICLE_REQUEST,
-  FETCH_ARTICLE_SUCCESS,
-  FETCH_ARTICLE_FAILURE,
-} from '../actions/fetchArticle';
+import { reducerWithInitialState } from 'typescript-fsa-reducers';
 
-const initialState = {
-  article: {},
+import { Article, articleAsyncActions } from '../actions/article';
+
+export interface ArticleState {
+  isFetching: boolean;
+  article: Article | null;
+}
+
+const initialState: ArticleState = {
   isFetching: false,
+  article: null,
 };
 
-const article = (state = initialState, action) => {
-  switch (action.type) {
-    case FETCH_ARTICLE_REQUEST:
-      return (Object as any).assign({}, state, {
-        isFechting: true,
-      });
-    case FETCH_ARTICLE_SUCCESS:
-      return (Object as any).assign({}, state, {
-        article: action.article,
-        isFetching: false,
-      });
-    case FETCH_ARTICLE_FAILURE:
-      return (Object as any).assign({}, state, {
-        isFeching: false,
-        error: action.error,
-      });
-    default:
-      return state;
-  }
-};
-
-export default article;
+export const articleReducer = reducerWithInitialState(initialState)
+  .case(articleAsyncActions.startedFetch, (state, {}) => {
+    return (Object as any).assign({}, state, {
+      isFetching: true,
+    });
+  })
+  .case(articleAsyncActions.doneFetch, (state, payload) => {
+    return (Object as any).assign({}, state, {
+      article: payload.result.article,
+      isFetching: false,
+    });
+  })
+  .case(articleAsyncActions.failedFetch, (state, payload) => {
+    return (Object as any).assign({}, state, {
+      error: payload.error.error,
+      isFeching: false,
+    });
+  });

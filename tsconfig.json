@@ -3,21 +3,14 @@
     "jsx": "react",
     "noImplicitAny": false,
     "removeComments": true,
-    "allowJs": true,
+    "allowJs": true
   },
   "awesomeTypescriptLoaderOptions": {
     "useCache": true,
     "useBabel": true,
     "babelOptions": {
       "babelrc": false,
-      "presets": [
-        [
-          "env", {
-            "targets": "last 2 versions, ie 11",
-            "modules": false
-          }
-        ]
-      ]
+      "presets": ["@babel/preset-es2017"]
     },
     "babelCore": "@babel/core",
     "reportFiles": [

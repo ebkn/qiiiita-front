@@ -4,19 +4,12 @@ import { Link } from 'react-router-dom';
 
 import HeaderAvatarButton from '../containers/HeaderAvatarButton';
 
-interface User {
-  uid: string;
-  identifier: string;
-  name: string;
-}
-interface Props {
-  auth: {
-    loggedIn: boolean;
-    user: User;
-  };
-}
-const Header: React.StatelessComponent<Props> = (props) => {
-  const { loggedIn, user } = props.auth;
+import { RootState } from '../state';
+
+type HeaderProps = ReturnType<typeof mapStateToProps>;
+
+const Header: React.SFC<HeaderProps> = (props: HeaderProps) => {
+  const { loggedIn, currentUser } = props.auth;
   return (
     <header className="d-flex justify-content-left py-0 bg-green">
       <div className="py-1">
@@ -26,12 +19,12 @@ const Header: React.StatelessComponent<Props> = (props) => {
         loggedIn ? (
           <div className="m-0 p-0 d-flex justify-content-end">
             <Link
-              to={`/users/${user.identifier}/articles/new`}
+              to={`/users/${currentUser.identifier}/articles/new`}
               className="white-text px-2"
             >
               投稿する
             </Link>
-            <HeaderAvatarButton user={user} />
+            <HeaderAvatarButton currentUser={currentUser} />
           </div>
         ) : (
           <Link to="/login" className="white-text">
@@ -43,7 +36,7 @@ const Header: React.StatelessComponent<Props> = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState) => ({
   auth: state.auth,
 });
 export default connect(

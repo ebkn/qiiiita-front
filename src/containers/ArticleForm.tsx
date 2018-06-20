@@ -1,20 +1,19 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
+import styledComponents from 'styled-components';
 
-import { editTitle, editContent } from '../actions/editArticle';
-import addArticle from '../actions/addArticle';
 import ArticlePreview from './ArticlePreview';
+
+import { RootState } from '../state';
+import { editingArticleActions } from '../actions/editingArticle';
 
 import { API_URL } from '../config';
 
-interface Article {
-  title: string;
-  content: string;
-}
-interface Props {
+interface OwnProps {
+  formType: string;
   match: {
     params: {
       identifier: string;
@@ -24,20 +23,16 @@ interface Props {
   history: {
     push(path: string): void;
   };
-  auth: {
-    user: {
-      identifier: string;
-    };
-  };
-  title: string;
-  content: string;
-  formType: string;
-  editTitle(title: string): void;
-  editContent(content: string): void;
-  addArticle(article: Article): void;
 }
+interface PathTypes {
+  identifier: string;
+  userIdentifier: string;
+}
+type Props = OwnProps & RouteComponentProps<PathTypes> &
+  ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+
 class ArticleForm extends React.Component<Props> {
-  parameters() {
+  public parameters() {
     return ({
       article: {
         title: this.props.title,
@@ -46,17 +41,18 @@ class ArticleForm extends React.Component<Props> {
     });
   }
 
-  postArticle() {
+  public postArticle() {
+    const { title, content } = this.props;
     axios.post(this.postURL(), this.parameters())
       .then((res) => {
         this.backToHome();
-        this.props.addArticle(res.data);
+        this.props.setArticle(title, content);
       }).catch(error =>
         alert(error)
       );
   }
 
-  updateArticle() {
+  public updateArticle() {
     axios.patch(this.articleURL(), this.parameters())
       .then(() =>
         this.props.history.push(this.articleURL()),
@@ -65,7 +61,7 @@ class ArticleForm extends React.Component<Props> {
       );
   }
 
-  submitArticle(e: React.FormEvent<HTMLFormElement>) {
+  public submitArticle(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     switch (this.props.formType) {
       case 'create':
@@ -79,22 +75,22 @@ class ArticleForm extends React.Component<Props> {
     }
   }
 
-  postURL() {
-    const userIdentifier = this.props.auth.user.identifier;
+  public postURL() {
+    const userIdentifier = this.props.auth.currentUser.identifier;
     return `${API_URL}/users/${userIdentifier}/articles`;
   }
 
-  articleURL() {
-    const userIdentifier = this.props.auth.user.identifier;
+  public articleURL() {
+    const userIdentifier = this.props.auth.currentUser.identifier;
     const articleIdentifier = this.props.match.params.identifier;
     return `${API_URL}/users/${userIdentifier}/articles/${articleIdentifier}`;
   }
 
-  backToHome() {
+  public backToHome() {
     this.props.history.push('/');
   }
 
-  submitText() {
+  public submitText() {
     switch (this.props.formType) {
       case 'create':
         return '投稿';
@@ -105,46 +101,32 @@ class ArticleForm extends React.Component<Props> {
     }
   }
 
-  formSubmitable() {
+  public formSubmitable() {
     return (this.props.title !== '' && this.props.content !== '');
   }
 
-  render() {
-    const style = {
-      titleInput: {
-        border: '1px solid #E0E0E0',
-        fontSize: '24px',
-        outline: 0,
-      },
-      contentTextarea: {
-        height: '70vh',
-        border: '1px solid #E0E0E0',
-        outline: 0,
-      },
-    };
+  public render() {
     return (
       <form
         onSubmit={e => this.submitArticle(e)}
       >
         <div className="container-fluid p-0">
-          <input
+          <TitleInput
             type="text"
-            onChange={e => this.props.editTitle(e.target.value)}
+            onChange={e => this.props.updateTitle(e.target.value)}
             value={this.props.title}
             placeholder="タイトル"
             className="w-100 px-1 py-2"
-            style={style.titleInput}
           />
         </div>
         <div className="container-fluid px-0 py-1">
           <div className="row w-100 mx-0">
             <div className="col s-12 m-6 px-0">
-              <textarea
-                onChange={e => this.props.editContent(e.target.value)}
+              <ContentTextarea
+                onChange={e => this.props.updateContent(e.target.value)}
                 value={this.props.content}
                 placeholder="記事"
                 className="w-100 px-1 py-2"
-                style={style.contentTextarea}
               />
             </div>
             <div className="col s-12 m-6 px-0">
@@ -168,15 +150,27 @@ class ArticleForm extends React.Component<Props> {
     );
   }
 }
-const mapStateToProps = state => ({
+
+const TitleInput = styledComponents.input`
+  border: '1px solid #E0E0E0';
+  fontSize: '24px';
+  outline: 0;
+`;
+const ContentTextarea = styledComponents.textarea`
+  height: '70vh';
+  border: '1px solid #E0E0E0';
+  outline: 0;
+`;
+
+const mapStateToProps = (state: RootState) => ({
   auth: state.auth,
   title: state.editingArticle.title,
   content: state.editingArticle.content,
 });
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  editTitle: (title: string) => dispatch(editTitle(title)),
-  editContent: (content: string) => dispatch(editContent(content)),
-  addArticle: (data: Article) => dispatch(addArticle(data)),
+const mapDispatchToProps = (dispatch: Dispatch<any, RootState>) => ({
+  updateTitle: (title: string) => dispatch(editingArticleActions.updateTitle({ title })),
+  updateContent: (content: string) => dispatch(editingArticleActions.updateContent({ content })),
+  setArticle: (title: string, content: string) => dispatch(editingArticleActions.setArticle({ title, content })),
 });
 export default withRouter(connect(
   mapStateToProps, mapDispatchToProps,

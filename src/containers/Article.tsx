@@ -1,20 +1,19 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import * as ReactMarkdown from 'react-markdown';
+import { Action } from 'typescript-fsa';
+import axios from 'axios';
 
-import fetchArticle from '../actions/fetchArticle';
-import setArticle from '../actions/setArticle';
+import { RootState } from '../state';
+import { ArticleState } from '../reducers/article';
+import { articleAsyncActions } from '../actions/article';
+import { editingArticleActions } from '../actions/editingArticle';
 
-interface Article {
-  identifier: string;
-  title: string;
-  content: string;
-  created_at: string;
-  updated_at: string;
-}
-interface Props {
+import { API_URL } from '../config';
+
+interface OwnProps {
   match: {
     params: {
       userIdentifier: string;
@@ -24,76 +23,83 @@ interface Props {
   history: {
     push(path: string): void;
   };
-  auth: {
-    user: {
-      identifier: string;
-    };
-  };
-  article: Article;
-  fetchArticle(userIdentifier: string, identifier: string): void;
-  setArticle(article: Article): void;
 }
+interface PathTypes {
+  userIdentifier: string;
+  identifier: string;
+}
+type Props = OwnProps & RouteComponentProps<PathTypes> &
+  ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+
 class Article extends React.Component<Props> {
-  componentDidMount() {
+  public componentDidMount() {
     const { userIdentifier, identifier } = this.props.match.params;
     this.props.fetchArticle(userIdentifier, identifier);
   }
 
-  editable() {
+  public editable() {
     const { userIdentifier } = this.props.match.params;
-    const { identifier } = this.props.auth.user;
+    const { identifier } = this.props.auth.currentUser;
     return userIdentifier === identifier;
   }
 
-  editArticleURL() {
+  public editArticleURL() {
     const { userIdentifier, identifier } = this.props.match.params;
     return `/users/${userIdentifier}/articles/${identifier}/edit`;
   }
 
-  moveToEditPage(e: React.FormEvent<HTMLButtonElement>) {
+  public moveToEditPage(e: React.FormEvent<HTMLButtonElement>) {
+    const { title, content } = this.props.article.article;
     e.preventDefault();
-    this.props.setArticle(this.props.article);
+    this.props.setArticle(title, content);
     this.props.history.push(this.editArticleURL());
   }
 
-  render() {
-    const { article } = this.props;
+  public render() {
+    const { title, content } = this.props.article.article;
     return (
       <div className="container bg-white">
         {(() => (
           this.editable() ? (
             <button
-              color="green"
               onClick={e => this.moveToEditPage(e)}
             >
               編集
             </button>
           ) : ('')
         ))()}
-        <h1 className="black-text font-weight-bold py-4">{article.title}</h1>
+        <h1 className="black-text font-weight-bold py-4">{title}</h1>
         <div className="py-2 pb-4">
-          <ReactMarkdown source={article.content} />
+          <ReactMarkdown source={content} />
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  const articleStates = state.article;
-  const latestState = articleStates.length > 0 ? articleStates[articleStates.length - 1] : articleStates;
-  return {
-    auth: state.auth,
-    article: latestState.article,
-    isFetching: state.isFetching,
-  };
-};
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  fetchArticle: (userIdentifier: string, identifier: string) => (
-    dispatch(fetchArticle(userIdentifier, identifier))
-  ),
-  setArticle: (article: Article) => dispatch(setArticle(article)),
+const mapStateToProps = (state: RootState) => ({
+  auth: state.auth,
+  article: state.article,
+});
+const mapDispatchToProps = (dispatch: Dispatch<any, RootState>) => ({
+  fetchArticle: (userIdentifier: string, identifier: string) => {
+    const FETCH_ARTICLE_URL = `${API_URL}/users/${userIdentifier}/articles/${identifier}`;
+    dispatch(articleAsyncActions.startedFetch({}));
+    axios.get(FETCH_ARTICLE_URL)
+      .then(res =>
+        dispatch(articleAsyncActions.doneFetch({
+          params: {}, result: { article: res.data },
+        })),
+      ).catch(error =>
+        dispatch(articleAsyncActions.failedFetch({
+          params: {}, error: { error },
+        })),
+      );
+  },
+  setArticle: (title: string, content: string) => {
+    dispatch(editingArticleActions.setArticle({ title, content }));
+  },
 });
 export default withRouter(connect(
   mapStateToProps, mapDispatchToProps,
-)(Article));
+)(Article)) as React.ComponentClass<Props>;

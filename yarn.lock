@@ -8,6 +8,12 @@
   dependencies:
     "@babel/highlight" "7.0.0-beta.49"
 
+"@babel/code-frame@7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0-beta.51.tgz#bd71d9b192af978df915829d39d4094456439a0c"
+  dependencies:
+    "@babel/highlight" "7.0.0-beta.51"
+
 "@babel/core@^7.0.0-beta.49":
   version "7.0.0-beta.49"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.0.0-beta.49.tgz#73de2081dd652489489f0cb4aa97829a1133314e"
@@ -38,6 +44,22 @@
     source-map "^0.5.0"
     trim-right "^1.0.1"
 
+"@babel/generator@7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.0.0-beta.51.tgz#6c7575ffde761d07485e04baedc0392c6d9e30f6"
+  dependencies:
+    "@babel/types" "7.0.0-beta.51"
+    jsesc "^2.5.1"
+    lodash "^4.17.5"
+    source-map "^0.5.0"
+    trim-right "^1.0.1"
+
+"@babel/helper-annotate-as-pure@7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/helper-annotate-as-pure/-/helper-annotate-as-pure-7.0.0-beta.51.tgz#38cf7920bf5f338a227f754e286b6fbadee04b58"
+  dependencies:
+    "@babel/types" "7.0.0-beta.51"
+
 "@babel/helper-function-name@7.0.0-beta.49":
   version "7.0.0-beta.49"
   resolved "https://registry.yarnpkg.com/@babel/helper-function-name/-/helper-function-name-7.0.0-beta.49.tgz#a25c1119b9f035278670126e0225c03041c8de32"
@@ -46,17 +68,67 @@
     "@babel/template" "7.0.0-beta.49"
     "@babel/types" "7.0.0-beta.49"
 
+"@babel/helper-function-name@7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/helper-function-name/-/helper-function-name-7.0.0-beta.51.tgz#21b4874a227cf99ecafcc30a90302da5a2640561"
+  dependencies:
+    "@babel/helper-get-function-arity" "7.0.0-beta.51"
+    "@babel/template" "7.0.0-beta.51"
+    "@babel/types" "7.0.0-beta.51"
+
 "@babel/helper-get-function-arity@7.0.0-beta.49":
   version "7.0.0-beta.49"
   resolved "https://registry.yarnpkg.com/@babel/helper-get-function-arity/-/helper-get-function-arity-7.0.0-beta.49.tgz#cf5023f32d2ad92d087374939cec0951bcb51441"
   dependencies:
     "@babel/types" "7.0.0-beta.49"
 
+"@babel/helper-get-function-arity@7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/helper-get-function-arity/-/helper-get-function-arity-7.0.0-beta.51.tgz#3281b2d045af95c172ce91b20825d85ea4676411"
+  dependencies:
+    "@babel/types" "7.0.0-beta.51"
+
+"@babel/helper-module-imports@7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/helper-module-imports/-/helper-module-imports-7.0.0-beta.51.tgz#ce00428045fbb7d5ebc0ea7bf835789f15366ab2"
+  dependencies:
+    "@babel/types" "7.0.0-beta.51"
+    lodash "^4.17.5"
+
+"@babel/helper-plugin-utils@7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/helper-plugin-utils/-/helper-plugin-utils-7.0.0-beta.51.tgz#0f6a5f2b6d1c6444413f8fab60940d79b63c2031"
+
+"@babel/helper-remap-async-to-generator@7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/helper-remap-async-to-generator/-/helper-remap-async-to-generator-7.0.0-beta.51.tgz#0edc57e05dcb5dde2a0b6ee6f8d0261982def25f"
+  dependencies:
+    "@babel/helper-annotate-as-pure" "7.0.0-beta.51"
+    "@babel/helper-wrap-function" "7.0.0-beta.51"
+    "@babel/template" "7.0.0-beta.51"
+    "@babel/traverse" "7.0.0-beta.51"
+    "@babel/types" "7.0.0-beta.51"
+
 "@babel/helper-split-export-declaration@7.0.0-beta.49":
   version "7.0.0-beta.49"
   resolved "https://registry.yarnpkg.com/@babel/helper-split-export-declaration/-/helper-split-export-declaration-7.0.0-beta.49.tgz#40d78eda0968d011b1c52866e5746cfb23e57548"
   dependencies:
     "@babel/types" "7.0.0-beta.49"
+
+"@babel/helper-split-export-declaration@7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/helper-split-export-declaration/-/helper-split-export-declaration-7.0.0-beta.51.tgz#8a6c3f66c4d265352fc077484f9f6e80a51ab978"
+  dependencies:
+    "@babel/types" "7.0.0-beta.51"
+
+"@babel/helper-wrap-function@7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/helper-wrap-function/-/helper-wrap-function-7.0.0-beta.51.tgz#6c516fb044109964ee031c22500a830313862fb1"
+  dependencies:
+    "@babel/helper-function-name" "7.0.0-beta.51"
+    "@babel/template" "7.0.0-beta.51"
+    "@babel/traverse" "7.0.0-beta.51"
+    "@babel/types" "7.0.0-beta.51"
 
 "@babel/helpers@7.0.0-beta.49":
   version "7.0.0-beta.49"
@@ -74,9 +146,36 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
+"@babel/highlight@7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/highlight/-/highlight-7.0.0-beta.51.tgz#e8844ae25a1595ccfd42b89623b4376ca06d225d"
+  dependencies:
+    chalk "^2.0.0"
+    esutils "^2.0.2"
+    js-tokens "^3.0.0"
+
 "@babel/parser@7.0.0-beta.49":
   version "7.0.0-beta.49"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.0.0-beta.49.tgz#944d0c5ba2812bb159edbd226743afd265179bdc"
+
+"@babel/parser@7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.0.0-beta.51.tgz#27cec2df409df60af58270ed8f6aa55409ea86f6"
+
+"@babel/plugin-transform-async-to-generator@7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-async-to-generator/-/plugin-transform-async-to-generator-7.0.0-beta.51.tgz#945385055a2e6d3566bf55af127c8d725cd3a173"
+  dependencies:
+    "@babel/helper-module-imports" "7.0.0-beta.51"
+    "@babel/helper-plugin-utils" "7.0.0-beta.51"
+    "@babel/helper-remap-async-to-generator" "7.0.0-beta.51"
+
+"@babel/preset-es2017@^7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/preset-es2017/-/preset-es2017-7.0.0-beta.51.tgz#0562ef7739426c77378bcb3e430bdd77c25faac4"
+  dependencies:
+    "@babel/helper-plugin-utils" "7.0.0-beta.51"
+    "@babel/plugin-transform-async-to-generator" "7.0.0-beta.51"
 
 "@babel/template@7.0.0-beta.49":
   version "7.0.0-beta.49"
@@ -85,6 +184,15 @@
     "@babel/code-frame" "7.0.0-beta.49"
     "@babel/parser" "7.0.0-beta.49"
     "@babel/types" "7.0.0-beta.49"
+    lodash "^4.17.5"
+
+"@babel/template@7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.0.0-beta.51.tgz#9602a40aebcf357ae9677e2532ef5fc810f5fbff"
+  dependencies:
+    "@babel/code-frame" "7.0.0-beta.51"
+    "@babel/parser" "7.0.0-beta.51"
+    "@babel/types" "7.0.0-beta.51"
     lodash "^4.17.5"
 
 "@babel/traverse@7.0.0-beta.49":
@@ -102,9 +210,32 @@
     invariant "^2.2.0"
     lodash "^4.17.5"
 
+"@babel/traverse@7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.0.0-beta.51.tgz#981daf2cec347a6231d3aa1d9e1803b03aaaa4a8"
+  dependencies:
+    "@babel/code-frame" "7.0.0-beta.51"
+    "@babel/generator" "7.0.0-beta.51"
+    "@babel/helper-function-name" "7.0.0-beta.51"
+    "@babel/helper-split-export-declaration" "7.0.0-beta.51"
+    "@babel/parser" "7.0.0-beta.51"
+    "@babel/types" "7.0.0-beta.51"
+    debug "^3.1.0"
+    globals "^11.1.0"
+    invariant "^2.2.0"
+    lodash "^4.17.5"
+
 "@babel/types@7.0.0-beta.49":
   version "7.0.0-beta.49"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.0.0-beta.49.tgz#b7e3b1c3f4d4cfe11bdf8c89f1efd5e1617b87a6"
+  dependencies:
+    esutils "^2.0.2"
+    lodash "^4.17.5"
+    to-fast-properties "^2.0.0"
+
+"@babel/types@7.0.0-beta.51":
+  version "7.0.0-beta.51"
+  resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.0.0-beta.51.tgz#d802b7b543b5836c778aa691797abf00f3d97ea9"
   dependencies:
     esutils "^2.0.2"
     lodash "^4.17.5"
@@ -250,6 +381,10 @@
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
+"@types/history@*":
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/@types/history/-/history-4.6.2.tgz#12cfaba693ba20f114ed5765467ff25fdf67ddb0"
+
 "@types/node@*":
   version "10.1.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.1.2.tgz#1b928a0baa408fc8ae3ac012cc81375addc147c6"
@@ -268,11 +403,38 @@
     "@types/react" "*"
     redux "^4.0.0"
 
+"@types/react-router-dom@^4.2.7":
+  version "4.2.7"
+  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-4.2.7.tgz#9d36bfe175f916dd8d7b6b0237feed6cce376b4c"
+  dependencies:
+    "@types/history" "*"
+    "@types/react" "*"
+    "@types/react-router" "*"
+
+"@types/react-router@*":
+  version "4.0.26"
+  resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-4.0.26.tgz#4489c873642baa633014294a6d0a290001ba9860"
+  dependencies:
+    "@types/history" "*"
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@^16.3.14":
   version "16.3.14"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.3.14.tgz#f90ac6834de172e13ecca430dcb6814744225d36"
   dependencies:
     csstype "^2.2.0"
+
+"@types/redux-thunk@^2.1.0":
+  version "2.1.0"
+  resolved "http://registry.npmjs.org/@types/redux-thunk/-/redux-thunk-2.1.0.tgz#bc2b6e972961831afb82a9bf4f06726e351f9416"
+  dependencies:
+    redux-thunk "*"
+
+"@types/redux@^3.6.0":
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@types/redux/-/redux-3.6.0.tgz#f1ebe1e5411518072e4fdfca5c76e16e74c1399a"
+  dependencies:
+    redux "*"
 
 "@webassemblyjs/ast@1.4.3":
   version "1.4.3"
@@ -3479,7 +3641,7 @@ hoek@4.x.x:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.1.tgz#9634502aa12c445dd5a7c5734b572bb8738aacbb"
 
-hoist-non-react-statics@^2.3.0, hoist-non-react-statics@^2.5.0:
+hoist-non-react-statics@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.0.tgz#d2ca2dfc19c5a91c5a6615ce8e564ef0347e2a40"
 
@@ -3709,7 +3871,7 @@ into-stream@^3.1.0:
     from2 "^2.1.1"
     p-is-promise "^1.1.0"
 
-invariant@^2.0.0, invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2:
+invariant@^2.0.0, invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   dependencies:
@@ -5803,28 +5965,28 @@ react-redux@^5.0.7:
     loose-envify "^1.1.0"
     prop-types "^15.6.0"
 
-react-router-dom@^4.2.2:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.2.2.tgz#c8a81df3adc58bba8a76782e946cbd4eae649b8d"
+react-router-dom@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.3.1.tgz#4c2619fc24c4fa87c9fd18f4fb4a43fe63fbd5c6"
   dependencies:
     history "^4.7.2"
-    invariant "^2.2.2"
+    invariant "^2.2.4"
     loose-envify "^1.3.1"
-    prop-types "^15.5.4"
-    react-router "^4.2.0"
-    warning "^3.0.0"
+    prop-types "^15.6.1"
+    react-router "^4.3.1"
+    warning "^4.0.1"
 
-react-router@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-4.2.0.tgz#61f7b3e3770daeb24062dae3eedef1b054155986"
+react-router@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-4.3.1.tgz#aada4aef14c809cb2e686b05cee4742234506c4e"
   dependencies:
     history "^4.7.2"
-    hoist-non-react-statics "^2.3.0"
-    invariant "^2.2.2"
+    hoist-non-react-statics "^2.5.0"
+    invariant "^2.2.4"
     loose-envify "^1.3.1"
     path-to-regexp "^1.7.0"
-    prop-types "^15.5.4"
-    warning "^3.0.0"
+    prop-types "^15.6.1"
+    warning "^4.0.1"
 
 react@^16.3.2:
   version "16.3.2"
@@ -5943,11 +6105,15 @@ redux-devtools-extension@^2.13.2:
   version "2.13.2"
   resolved "https://registry.yarnpkg.com/redux-devtools-extension/-/redux-devtools-extension-2.13.2.tgz#e0f9a8e8dfca7c17be92c7124958a3b94eb2911d"
 
+redux-thunk@*:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
+
 redux-thunk@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.2.0.tgz#e615a16e16b47a19a515766133d1e3e99b7852e5"
 
-redux@^4.0.0:
+redux@*, redux@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.0.tgz#aa698a92b729315d22b34a0553d7e6533555cc03"
   dependencies:
@@ -7343,6 +7509,12 @@ vm-browserify@0.0.4:
 warning@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/warning/-/warning-3.0.0.tgz#32e5377cb572de4ab04753bdf8821c01ed605b7c"
+  dependencies:
+    loose-envify "^1.0.0"
+
+warning@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.1.tgz#66ce376b7fbfe8a887c22bdf0e7349d73d397745"
   dependencies:
     loose-envify "^1.0.0"
 

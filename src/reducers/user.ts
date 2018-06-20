@@ -1,33 +1,32 @@
-import {
-  FETCH_USER_REQUEST,
-  FETCH_USER_SUCCESS,
-  FETCH_USER_FAILURE,
-} from '../actions/fetchUser';
+import { reducerWithInitialState } from 'typescript-fsa-reducers';
 
-const initialState = {
-  user: {},
+import { User, userAsyncActions } from '../actions/user';
+
+export interface UserState {
+  isFetching: boolean;
+  user: User | null;
+}
+
+const initialState: UserState = {
   isFetching: false,
+  user: null,
 };
 
-const user = (state = initialState, action) => {
-  switch (action.type) {
-    case FETCH_USER_REQUEST:
-      return (Object as any).assign({}, state, {
-        isFetching: true,
-      });
-    case FETCH_USER_SUCCESS:
-      return (Object as any).assign({}, state, {
-        user: action.user,
-        isFetching: false,
-      });
-    case FETCH_USER_FAILURE:
-      return (Object as any).assign({}, state, {
-        isFetching: false,
-        error: action.error,
-      });
-    default:
-      return state;
-  }
-};
-
-export default user;
+export const userReducer = reducerWithInitialState(initialState)
+  .case(userAsyncActions.startedFetch, (state, {}) => {
+    return (Object as any).assign({}, state, {
+      isFetching: true,
+    });
+  })
+  .case(userAsyncActions.doneFetch, (state, payload) => {
+    return (Object as any).assign({}, state, {
+      user: payload.result.user,
+      isFetching: false,
+    });
+  })
+  .case(userAsyncActions.failedFetch, (state, payload) => {
+    return (Object as any).assign({}, state, {
+      error: payload.error.error,
+      isFetching: false,
+    });
+  });

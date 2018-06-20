@@ -3,19 +3,24 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import * as firebase from 'firebase';
+import axios from 'axios';
 
 import Routes from './Routes';
 import Header from './Header';
 import FooterBar from '../components/FooterBar';
 
-import { login } from '../actions/auth';
+import { RootState } from '../state';
+import { authAsyncActions } from '../actions/auth';
 
-interface AppProps {
-  refLogin(): void;
-}
-class App extends React.Component<AppProps> {
+import { API_URL } from '../config';
+
+const AUTH_URL = `${API_URL}/auth`;
+
+type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+
+class App extends React.Component<Props> {
   public componentDidMount() {
-    this.props.refLogin();
+    this.props.login();
   }
 
   public render() {
@@ -33,16 +38,24 @@ class App extends React.Component<AppProps> {
   }
 }
 
-interface DispatchProps {
-  refLogin(): void;
-}
 const mapStateToProps = () => ({});
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-  refLogin: () => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        dispatch(login(user));
+const mapDispatchToProps = (dispatch: Dispatch<any, RootState>) => ({
+  login: () => {
+    firebase.auth().onAuthStateChanged((currentUser) => {
+      if (!currentUser) {
+        return;
       }
+      dispatch(authAsyncActions.startedLogin({}));
+      axios.post(AUTH_URL, { user: currentUser })
+        .then(res =>
+          dispatch(authAsyncActions.doneLogin({
+            params: {}, result: { currentUser: res.data },
+          })),
+        ).catch(error =>
+          dispatch(authAsyncActions.failedLogin({
+            params: {}, error: { error },
+          })),
+        );
     });
   },
 });

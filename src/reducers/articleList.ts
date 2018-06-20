@@ -1,40 +1,40 @@
-import {
-  FETCH_ARTICLE_LIST_REQUEST,
-  FETCH_ARTICLE_LIST_SUCCESS,
-  FETCH_ARTICLE_LIST_FAILURE,
-} from '../actions/fetchArticleList';
-import { ADD_ARTICLE } from '../actions/addArticle';
+import { reducerWithInitialState } from 'typescript-fsa-reducers';
 
-const initialState = {
-  articleList: [],
+import { articleListAsyncActions } from '../actions/articleList';
+import { Article } from '../actions/article';
+
+export interface ArticleListState {
+  isFetching: boolean;
+  articleList: Article[];
+}
+
+const initialState: ArticleListState = {
   isFetching: false,
+  articleList: [],
 };
 
-const articleList = (state = initialState, action) => {
-  switch (action.type) {
-    case FETCH_ARTICLE_LIST_REQUEST:
-      return (Object as any).assign({}, state, {
-        isFechting: true,
-      });
-    case FETCH_ARTICLE_LIST_SUCCESS:
-      return (Object as any).assign({}, state, {
-        articleList: action.articleList,
-        isFetching: false,
-      });
-    case FETCH_ARTICLE_LIST_FAILURE:
-      return (Object as any).assign({}, state, {
-        isFeching: false,
-        error: action.error,
-      });
-    case ADD_ARTICLE:
-      state.articleList.unshift(action.article);
-      return (Object as any).assign({}, state, {
-        isFetching: false,
-        articleList: state.articleList,
-      });
-    default:
-      return state;
-  }
-};
-
-export default articleList;
+export const articleListReducer = reducerWithInitialState(initialState)
+  .case(articleListAsyncActions.startedFetch, (state, {}) => {
+    return (Object as any).assign({}, state, {
+      isFetching: true,
+    });
+  })
+  .case(articleListAsyncActions.doneFetch, (state, payload) => {
+    return (Object as any).assign({}, state, {
+      articleList: payload.result.articleList,
+      isFetching: false,
+    });
+  })
+  .case(articleListAsyncActions.failedFetch, (state, payload) => {
+    return (Object as any).assign({}, state, {
+      error: payload.error.error,
+      isFetching: false,
+    });
+  })
+  .case(articleListAsyncActions.addArticle, (state, data) => {
+    state.articleList.unshift(data.article);
+    return (Object as any).assign({}, state, {
+      articleList: state.articleList,
+      isFetching: false,
+    });
+  });

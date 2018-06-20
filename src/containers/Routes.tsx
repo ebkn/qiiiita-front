@@ -9,12 +9,11 @@ import Article from '../containers/Article';
 import ArticlePost from '../components/ArticlePost';
 import ArticleEdit from '../components/ArticleEdit';
 
-interface Props {
-  auth: {
-    loggedIn: boolean;
-  };
-}
-const Routes: React.StatelessComponent<Props> = props => (
+import { RootState } from '../state';
+
+type Props = ReturnType<typeof mapStateToProps>;
+
+const Routes: React.SFC<Props> = (props: Props) => (
   <Switch>
     <Route exact={true} path="/" component={ArticleList} />
     <Route path="/login" component={Auth} />
@@ -26,20 +25,20 @@ const Routes: React.StatelessComponent<Props> = props => (
         props.auth.loggedIn ? (<ArticlePost />) : (<Redirect to="/login" />)
       )}
     />
+   <Route exact={true} path="/users/:userIdentifier/articles/:identifier" component={Article} />
     <Route
       path="/users/:userIdentifier/articles/:identifier/edit"
       render={() => (
         props.auth.loggedIn ? (<ArticleEdit />) : (<Redirect to="/login" />)
       )}
     />
-    <Route path="/users/:userIdentifier/articles/:identifier" component={Article} />
     <Route>
       <h2>Page Not Found</h2>
     </Route>
   </Switch>
 );
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState) => ({
   auth: state.auth,
 });
 export default connect(
