@@ -1,5 +1,4 @@
-import { Dispatch } from 'redux';
-import { actionCreatorFactory, ActionCreator, Success, Failure } from 'typescript-fsa';
+import { actionCreatorFactory, Success, Failure } from 'typescript-fsa';
 
 const actionCreator = actionCreatorFactory();
 

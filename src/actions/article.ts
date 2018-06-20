@@ -1,4 +1,4 @@
-import { actionCreatorFactory, ActionCreator, Success, Failure } from 'typescript-fsa';
+import { actionCreatorFactory, Success, Failure } from 'typescript-fsa';
 
 import { User } from './user';
 
