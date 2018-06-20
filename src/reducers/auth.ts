@@ -4,12 +4,18 @@ import { CurrentUser, authAsyncActions, authActions } from '../actions/auth';
 
 export interface AuthState {
   loggedIn: boolean;
-  currentUser: CurrentUser | null;
+  currentUser: CurrentUser;
 }
 
 const initialState: AuthState = {
   loggedIn: false,
-  currentUser: null,
+  currentUser: {
+    identifier: '',
+    name: '',
+    uid: '',
+    email: '',
+    photoURL: '',
+  },
 };
 
 export const authReducer = reducerWithInitialState(initialState)
@@ -33,6 +39,12 @@ export const authReducer = reducerWithInitialState(initialState)
   .case(authActions.logout, (state) => {
     return (Object as any).assign({}, state, {
       loggedIn: false,
-      currentUser: null,
+      currentUser: {
+        identifier: '',
+        name: '',
+        uid: '',
+        email: '',
+        photoURL: '',
+      },
     });
   });

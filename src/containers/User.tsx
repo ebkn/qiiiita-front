@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Action } from 'typescript-fsa';
 import axios from 'axios';
 
@@ -16,7 +17,11 @@ interface OwnProps {
     };
   };
 }
-type Props = OwnProps & ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+interface PathTypes {
+  identifier: string;
+}
+type Props = OwnProps & RouteComponentProps<PathTypes> &
+  ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 class User extends React.Component<Props> {
   public componentDidMount() {
@@ -59,6 +64,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any, RootState>) => ({
       );
   },
 });
-export default connect(
+export default withRouter(connect(
   mapStateToProps, mapDispatchToProps,
-)(User);
+)(User)) as typeof User;

@@ -4,12 +4,25 @@ import { Article, articleAsyncActions } from '../actions/article';
 
 export interface ArticleState {
   isFetching: boolean;
-  article: Article | null;
+  article: Article;
 }
 
 const initialState: ArticleState = {
   isFetching: false,
-  article: null,
+  article: {
+    identifier: '',
+    title: '',
+    content: '',
+    created_at: '',
+    updated_at: '',
+    user: {
+      uid: '',
+      identifier: '',
+      name: '',
+      email: '',
+      photoURL: '',
+    },
+  },
 };
 
 export const articleReducer = reducerWithInitialState(initialState)

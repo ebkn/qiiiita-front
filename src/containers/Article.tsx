@@ -39,8 +39,8 @@ class Article extends React.Component<Props> {
 
   public editable() {
     const { userIdentifier } = this.props.match.params;
-    const { identifier } = this.props.auth.currentUser;
-    return userIdentifier === identifier;
+    const { currentUser } = this.props.auth;
+    return currentUser.identifier === userIdentifier;
   }
 
   public editArticleURL() {
@@ -56,7 +56,7 @@ class Article extends React.Component<Props> {
   }
 
   public render() {
-    const { title, content } = this.props.article.article;
+    const { article } = this.props.article;
     return (
       <div className="container bg-white">
         {(() => (
@@ -68,9 +68,9 @@ class Article extends React.Component<Props> {
             </button>
           ) : ('')
         ))()}
-        <h1 className="black-text font-weight-bold py-4">{title}</h1>
+        <h1 className="black-text font-weight-bold py-4">{article.title}</h1>
         <div className="py-2 pb-4">
-          <ReactMarkdown source={content} />
+          <ReactMarkdown source={article.content} />
         </div>
       </div>
     );

@@ -4,12 +4,18 @@ import { User, userAsyncActions } from '../actions/user';
 
 export interface UserState {
   isFetching: boolean;
-  user: User | null;
+  user: User;
 }
 
 const initialState: UserState = {
   isFetching: false,
-  user: null,
+  user: {
+    uid: '',
+    identifier: '',
+    name: '',
+    email: '',
+    photoURL: '',
+  },
 };
 
 export const userReducer = reducerWithInitialState(initialState)

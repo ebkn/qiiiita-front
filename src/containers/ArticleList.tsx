@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
 
 import ArticleInList from '../components/ArticleInList';
@@ -16,7 +17,9 @@ const FETCH_ARTICLE_LIST_URL = `${API_URL}/articles`;
 interface OwnProps {
   fetchArticleList(): void;
 }
-type Props = OwnProps & ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+interface PathTypes {}
+type Props = OwnProps & RouteComponentProps<PathTypes> &
+  ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 class ArticleList extends React.Component<Props> {
   public componentDidMount() {
@@ -55,6 +58,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any, RootState>) => ({
       );
   },
 });
-export default connect(
+export default withRouter(connect(
   mapStateToProps, mapDispatchToProps,
-)(ArticleList);
+)(ArticleList)) as typeof ArticleList;
