@@ -11,13 +11,12 @@ type HeaderProps = ReturnType<typeof mapStateToProps>;
 const Header: React.SFC<HeaderProps> = (props: HeaderProps) => {
   const { loggedIn, currentUser } = props.auth;
   return (
-    <header className="d-flex justify-content-left py-0 bg-green">
+    <header className="sticky-top d-flex justify-content-left px-4 py-2 light-green">
       <div className="py-1">
         <Link to="/" className="white-text">Qiiiita</Link>
       </div>
-      {(() => (
-        loggedIn ? (
-          <div className="m-0 p-0 d-flex justify-content-end">
+      { loggedIn ? (
+          <div className="w-100 m-0 p-0 d-flex justify-content-end">
             <Link
               to={`/users/${currentUser.identifier}/articles/new`}
               className="white-text px-2"
@@ -26,12 +25,14 @@ const Header: React.SFC<HeaderProps> = (props: HeaderProps) => {
             </Link>
             <HeaderAvatarButton currentUser={currentUser} />
           </div>
-        ) : (
-          <Link to="/login" className="white-text">
-            ログイン
-          </Link>
-        )
-      ))()}
+          ) : (
+          <div className="w-100 m-0 p-0 d-flex justify-content-end">
+            <Link to="/login" className="white-text">
+              ログイン
+            </Link>
+          </div>
+          )
+        }
     </header>
   );
 };

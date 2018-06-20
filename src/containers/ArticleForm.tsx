@@ -5,7 +5,8 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
 import styledComponents from 'styled-components';
 
-import ArticlePreview from './ArticlePreview';
+import ArticlePreview from '../components/ArticlePreview';
+import FormSubmitButton from '../components/FormSubmitButton';
 
 import { RootState } from '../state';
 import { editingArticleActions } from '../actions/editingArticle';
@@ -106,15 +107,14 @@ class ArticleForm extends React.Component<Props> {
   }
 
   public render() {
+    const { title, content } = this.props;
     return (
-      <form
-        onSubmit={e => this.submitArticle(e)}
-      >
+      <form onSubmit={e => this.submitArticle(e)}>
         <div className="container-fluid p-0">
           <TitleInput
             type="text"
             onChange={e => this.props.updateTitle(e.target.value)}
-            value={this.props.title}
+            value={title}
             placeholder="タイトル"
             className="w-100 px-1 py-2"
           />
@@ -124,28 +124,20 @@ class ArticleForm extends React.Component<Props> {
             <div className="col s-12 m-6 px-0">
               <ContentTextarea
                 onChange={e => this.props.updateContent(e.target.value)}
-                value={this.props.content}
+                value={content}
                 placeholder="記事"
                 className="w-100 px-1 py-2"
               />
             </div>
             <div className="col s-12 m-6 px-0">
-              <ArticlePreview />
+              <ArticlePreview title={title} content={content} />
             </div>
           </div>
         </div>
-        <div className="container-fluid px-0 py-0">
-          <div className="d-flex py-0 w-100 justify-content-end">
-            <button
-              type="submit"
-              disabled={!this.formSubmitable()}
-              className="py-1"
-              color="light-green"
-            >
-              {this.submitText()}
-            </button>
-          </div>
-        </div>
+        <FormSubmitButton
+          disabled={!this.formSubmitable()}
+          text={this.submitText()}
+        />
       </form>
     );
   }

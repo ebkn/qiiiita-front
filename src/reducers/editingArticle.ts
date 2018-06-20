@@ -13,12 +13,15 @@ const initialState: EditingArticleState = {
 };
 
 export const editingArticleReducer = reducerWithInitialState(initialState)
-  .case(editingArticleActions.updateTitle, (state, title) => {
-    return  (Object as any).assign({}, state, { title });
+  .case(editingArticleActions.updateTitle, (state, payload) => {
+    return  (Object as any).assign({}, state, { title: payload.title });
   })
-  .case(editingArticleActions.updateContent, (state, content) => {
-    return  (Object as any).assign({}, state, { content });
+  .case(editingArticleActions.updateContent, (state, payload) => {
+    return  (Object as any).assign({}, state, { content: payload.content });
   })
-  .case(editingArticleActions.setArticle, (state, { title, content }) => {
-    return  (Object as any).assign({}, state, { title, content });
+  .case(editingArticleActions.setArticle, (state, payload) => {
+    return  (Object as any).assign({}, state, {
+      title: payload.title,
+      content: payload.content,
+    });
   });

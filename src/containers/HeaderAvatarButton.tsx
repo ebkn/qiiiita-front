@@ -14,12 +14,12 @@ interface OwnProps {
     push(path: string): void;
   };
 }
-interface State {
-  collapse: boolean;
-}
 interface PathTypes {}
 type Props = OwnProps & RouteComponentProps<PathTypes> &
   ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+interface State {
+  collapse: boolean;
+}
 
 class HeaderAvatarButton extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -44,12 +44,12 @@ class HeaderAvatarButton extends React.Component<Props, State> {
       <div>
         <a
           onClick={e => this.toggleUserMenu(e)}
-          className="white-text d-block px-2"
+          className="white-text d-block w-100 h-100 px-2"
         >
-          <UserImage src={currentUser.photoURL} className="d-block" />
+          <img src={currentUser.photoURL} className="d-block" style={imageStyle} />
         </a>
-        <Button>
-          <Menu className="white grey-text px-2">
+        { this.state.collapse ?
+          <Menu>
             <Link
               to={`/users/${currentUser.identifier}`}
               className="d-block py-2 grey-text"
@@ -63,28 +63,29 @@ class HeaderAvatarButton extends React.Component<Props, State> {
               <p className="m-0">ログアウト</p>
             </a>
           </Menu>
-        </Button>
+        : '' }
       </div>
     );
   }
 }
 
-const UserImage = styledComponents.img`
-  width: '30px';
-  height: '30px';
-  border: 'none';
-  borderRadius: '3px';
-`;
-const Button = styledComponents.div`
-  position: 'absolute';
-`;
+const imageStyle: React.CSSProperties = {
+  position: 'relative',
+  width: '30px',
+  height: '30px',
+  border: '1px solid white',
+  borderRadius: '3px',
+};
 const Menu = styledComponents.div`
-  position: 'relative';
+  position: 'absolute';
   top: '10px';
   left: '-80px';
   width: '120px';
+  padding: '0 10px';
   border: '1px solid #E0E0E0';
   borderRadius: '3px';
+  color: 'grey';
+  backgroundColor: 'white';
 `;
 
 const mapStateToProps = (state: RootState) => ({

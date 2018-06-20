@@ -2,21 +2,12 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styledComponents from 'styled-components';
 
-interface Article {
-  identifier: string;
-  title: string;
-  content: string;
-  created_at: string;
-  updated_at: string;
-  user: {
-    identifier: string;
-    name: string;
-    photoURL: string;
-  };
-}
+import { Article } from '../actions/article';
+
 interface Props {
   article: Article;
 }
+
 const ArticleInList: React.StatelessComponent<Props> = ({ article }) => {
   const userLink = `/users/${article.user.identifier}`;
   const articleLink = `${userLink}/articles/${article.identifier}`;
