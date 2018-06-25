@@ -10,7 +10,7 @@ export interface AuthState {
 const initialState: AuthState = {
   loggedIn: false,
   currentUser: {
-    accessToken: '',
+    access_token: '',
     name: '',
     uid: '',
     email: '',
@@ -40,7 +40,7 @@ export const authReducer = reducerWithInitialState(initialState)
     return (Object as any).assign({}, state, {
       loggedIn: false,
       currentUser: {
-        accessToken: '',
+        access_token: '',
         name: '',
         uid: '',
         email: '',

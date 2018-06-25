@@ -18,7 +18,6 @@ const initialState: ArticleState = {
     comments_count: 0,
     user: {
       uid: '',
-      identifier: '',
       name: '',
       email: '',
       photoURL: '',

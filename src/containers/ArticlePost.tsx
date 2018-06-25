@@ -26,7 +26,7 @@ const mapStateToProps = (state: RootState) => ({
   editingArticle: state.editingArticle,
 });
 const mapDispatchToProps = (dispatch: Dispatch<any, RootState>) => ({
-  clearEditingArticle: () => dispatch(editingArticleActions.clearArticle()),
+  clearEditingArticle: () => dispatch(editingArticleActions.clearArticle({})),
 });
 export default connect(
   mapStateToProps, mapDispatchToProps,

@@ -8,7 +8,7 @@ import { RootState } from '../state';
 interface OwnProps {
   match: {
     params: {
-      userIdentifier: string;
+      username: string;
       identifier: string;
     };
   };
@@ -17,7 +17,7 @@ interface OwnProps {
   };
 }
 interface PathTypes {
-  userIdentifier: string;
+  username: string;
   identifier: string;
 }
 type Props = OwnProps & RouteComponentProps<PathTypes> & ReturnType<typeof mapStateToProps>;
@@ -38,8 +38,8 @@ class ArticleEdit extends React.Component<Props> {
   }
 
   private articleUrl(): string {
-    const { userIdentifier, identifier } = this.props.match.params;
-    return `/ueers/${userIdentifier}/articles/${identifier}`;
+    const { username, identifier } = this.props.match.params;
+    return `/${username}/${identifier}`;
   }
 }
 

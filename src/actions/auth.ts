@@ -3,7 +3,7 @@ import { actionCreatorFactory, Success, Failure } from 'typescript-fsa';
 const actionCreator = actionCreatorFactory();
 
 export interface CurrentUser {
-  accessToken: string;
+  access_token: string;
   name: string;
   uid: string;
   email: string;

@@ -18,7 +18,6 @@ interface OwnProps {
   match: {
     params: {
       identifier: string;
-      userIdentifier: string;
     };
   };
   history: {
@@ -27,7 +26,6 @@ interface OwnProps {
 }
 interface PathTypes {
   identifier: string;
-  userIdentifier: string;
 }
 type Props = OwnProps & RouteComponentProps<PathTypes> &
   ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
@@ -120,11 +118,13 @@ class ArticleForm extends React.Component<Props> {
   private articleURL(): string {
     const { name } = this.props.auth.currentUser;
     const { identifier } = this.props.match.params;
-    return `/${name}/articles/${identifier}`;
+    return `/${name}/${identifier}`;
   }
 
   private parameters(): any {
+    const { access_token } = this.props.auth.currentUser;
     return ({
+      access_token,
       article: {
         title: this.props.title,
         content: this.props.content,
