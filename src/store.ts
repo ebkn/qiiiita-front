@@ -7,6 +7,7 @@ import { userReducer } from './reducers/user';
 import { articleListReducer } from './reducers/articleList';
 import { articleReducer } from './reducers/article';
 import { editingArticleReducer } from './reducers/editingArticle';
+import { commentListReducer } from './reducers/commentList';
 
 import { RootState } from './state';
 
@@ -17,6 +18,7 @@ export const store = createStore(
     articleList: articleListReducer,
     article: articleReducer,
     editingArticle: editingArticleReducer,
+    commentList: commentListReducer,
   }),
   composeWithDevTools(applyMiddleware(thunk.default)),
 );

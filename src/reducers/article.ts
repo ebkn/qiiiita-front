@@ -22,6 +22,7 @@ const initialState: ArticleState = {
       email: '',
       photoURL: '',
     },
+    comments: [],
   },
 };
 

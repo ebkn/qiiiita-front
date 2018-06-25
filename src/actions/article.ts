@@ -1,6 +1,7 @@
 import { actionCreatorFactory, Success, Failure } from 'typescript-fsa';
 
 import { User } from './user';
+import { Comment } from './commentList';
 
 export interface Article {
   identifier: string;
@@ -10,6 +11,7 @@ export interface Article {
   updated_at: string;
   comments_count: number;
   user: User;
+  comments: Comment[];
 }
 
 const actionCreator = actionCreatorFactory();

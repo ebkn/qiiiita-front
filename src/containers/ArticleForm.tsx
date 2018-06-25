@@ -132,7 +132,7 @@ class ArticleForm extends React.Component<Props> {
     });
   }
 
-  private backToHome() {
+  private backToHome(): void {
     this.props.history.push('/');
   }
 }

@@ -6,10 +6,13 @@ import * as ReactMarkdown from 'react-markdown';
 import axios from 'axios';
 import styled from 'styled-components';
 
+import CommentList from './CommentList';
+import CommentPost from './CommentPost';
 import { RootState } from '../state';
 import { ArticleState } from '../reducers/article';
 import { articleAsyncActions } from '../actions/article';
 import { editingArticleActions } from '../actions/editingArticle';
+import { commentListActions } from '../actions/commentList';
 
 import { API_URLS } from '../config';
 
@@ -65,6 +68,8 @@ class Article extends React.Component<Props> {
         <ContentWrapper>
           <ReactMarkdown source={article.content} />
         </ContentWrapper>
+        <CommentList />
+        <CommentPost />
       </div>
     );
   }
@@ -95,11 +100,12 @@ const mapDispatchToProps = (dispatch: Dispatch<any, RootState>) => ({
   fetchArticle: (identifier: string) => {
     dispatch(articleAsyncActions.startedFetch({}));
     axios.get(API_URLS.fetchArticle(identifier))
-      .then(res =>
+      .then((res) => {
         dispatch(articleAsyncActions.doneFetch({
           params: {}, result: { article: res.data },
-        })),
-      ).catch(error =>
+        }));
+        dispatch(commentListActions.insertAll({ commentList: res.data.comments }));
+      }).catch(error =>
         dispatch(articleAsyncActions.failedFetch({
           params: {}, error: { error },
         })),
