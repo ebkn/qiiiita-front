@@ -1,13 +1,9 @@
 import * as React from 'react';
 
 const FooterBar = () => (
-  <footer color="white" className="my-0 py-3">
-    <div className="container-fluid text-left black-text">
-      <div className="row">
-        <div className="m-6">
-          <h4 className="title">Qiiita</h4>
-        </div>
-      </div>
+  <footer className="my-0 py-3 white">
+    <div className="container-fluid">
+      <h4>Qiiiita</h4>
     </div>
     <div className="footer-copyright text-center white">
       <div className="container-fluid">

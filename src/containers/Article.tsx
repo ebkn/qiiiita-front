@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import * as ReactMarkdown from 'react-markdown';
-import { Action } from 'typescript-fsa';
 import axios from 'axios';
+import styled from 'styled-components';
 
 import { RootState } from '../state';
 import { ArticleState } from '../reducers/article';
@@ -32,25 +32,20 @@ type Props = OwnProps & RouteComponentProps<PathTypes> &
   ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 class Article extends React.Component<Props> {
-  public componentDidMount() {
+  public componentDidMount(): void {
     const { userIdentifier, identifier } = this.props.match.params;
     this.props.fetchArticle(userIdentifier, identifier);
   }
 
-  public editable() {
+  public editable(): boolean {
     const { userIdentifier } = this.props.match.params;
     const { currentUser } = this.props.auth;
     return currentUser.identifier === userIdentifier;
   }
 
-  public editArticleURL() {
-    const { userIdentifier, identifier } = this.props.match.params;
-    return `/users/${userIdentifier}/articles/${identifier}/edit`;
-  }
-
-  public moveToEditPage(e: React.FormEvent<HTMLButtonElement>) {
-    const { title, content } = this.props.article.article;
+  public moveToEditPage(e: React.FormEvent<HTMLButtonElement>): void {
     e.preventDefault();
+    const { title, content } = this.props.article.article;
     this.props.setArticle(title, content);
     this.props.history.push(this.editArticleURL());
   }
@@ -59,23 +54,38 @@ class Article extends React.Component<Props> {
     const { article } = this.props.article;
     return (
       <div className="container bg-white">
-        {(() => (
-          this.editable() ? (
-            <button
-              onClick={e => this.moveToEditPage(e)}
-            >
-              編集
-            </button>
-          ) : ('')
-        ))()}
-        <h1 className="black-text font-weight-bold py-4">{article.title}</h1>
-        <div className="py-2 pb-4">
+        { this.editable() ?
+          <StyledButton onClick={e => this.moveToEditPage(e)}>
+            編集
+          </StyledButton>
+        : null }
+        <h1 className="black-text font-weight-bold py-4">
+          {article.title}
+        </h1>
+        <ContentWrapper>
           <ReactMarkdown source={article.content} />
-        </div>
+        </ContentWrapper>
       </div>
     );
   }
+
+  private editArticleURL(): string {
+    const { userIdentifier, identifier } = this.props.match.params;
+    return `/users/${userIdentifier}/articles/${identifier}/edit`;
+  }
 }
+
+const StyledButton = styled.button.attrs({
+  className: 'px-3 py-1 light-green text-white',
+})`
+  border: 1px solid #E0E0E0;
+  border-radius: 2px;
+`;
+const ContentWrapper = styled.div.attrs({
+  className: 'py-2 pb-4',
+})`
+  overflow-x: scroll;
+`;
 
 const mapStateToProps = (state: RootState) => ({
   auth: state.auth,
@@ -102,4 +112,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any, RootState>) => ({
 });
 export default withRouter(connect(
   mapStateToProps, mapDispatchToProps,
-)(Article)) as React.ComponentClass<Props>;
+)(Article));

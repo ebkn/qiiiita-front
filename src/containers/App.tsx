@@ -10,7 +10,7 @@ import User from './User';
 import ArticleList from './ArticleList';
 import Article from './Article';
 import ArticlePost from '../components/ArticlePost';
-import ArticleEdit from '../components/ArticleEdit';
+import ArticleEdit from './ArticleEdit';
 import Header from './Header';
 import FooterBar from '../components/FooterBar';
 
@@ -43,14 +43,14 @@ class App extends React.Component<Props> {
                 exact={true}
                 path="/users/:userIdentifier/articles/new"
                 render={() => (
-                  loggedIn ? (<ArticlePost />) : (<Redirect to="/login" />)
+                  loggedIn ? <ArticlePost /> : <Redirect to="/login" />
                 )}
               />
-             <Route exact={true} path="/users/:userIdentifier/articles/:identifier" component={Article} />
+              <Route exact={true} path="/users/:userIdentifier/articles/:identifier" component={Article} />
               <Route
                 path="/users/:userIdentifier/articles/:identifier/edit"
                 render={() => (
-                  loggedIn ? (<ArticleEdit />) : (<Redirect to="/login" />)
+                  loggedIn ? <ArticleEdit /> : <Redirect to="/login" />
                 )}
               />
               <Route>

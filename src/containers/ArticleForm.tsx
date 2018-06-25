@@ -33,36 +33,7 @@ type Props = OwnProps & RouteComponentProps<PathTypes> &
   ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 class ArticleForm extends React.Component<Props> {
-  public parameters() {
-    return ({
-      article: {
-        title: this.props.title,
-        content: this.props.content,
-      },
-    });
-  }
-
-  public postArticle() {
-    const { title, content } = this.props;
-    axios.post(this.postURL(), this.parameters())
-      .then((res) => {
-        this.backToHome();
-        this.props.setArticle(title, content);
-      }).catch(error =>
-        alert(error)
-      );
-  }
-
-  public updateArticle() {
-    axios.patch(this.articleURL(), this.parameters())
-      .then(() =>
-        this.props.history.push(this.articleURL()),
-      ).catch(error =>
-        alert(error)
-      );
-  }
-
-  public submitArticle(e: React.FormEvent<HTMLFormElement>) {
+  public submitArticle(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
     switch (this.props.formType) {
       case 'create':
@@ -76,22 +47,7 @@ class ArticleForm extends React.Component<Props> {
     }
   }
 
-  public postURL() {
-    const userIdentifier = this.props.auth.currentUser.identifier;
-    return `${API_URL}/users/${userIdentifier}/articles`;
-  }
-
-  public articleURL() {
-    const userIdentifier = this.props.auth.currentUser.identifier;
-    const articleIdentifier = this.props.match.params.identifier;
-    return `${API_URL}/users/${userIdentifier}/articles/${articleIdentifier}`;
-  }
-
-  public backToHome() {
-    this.props.history.push('/');
-  }
-
-  public submitText() {
+  public submitButtonText(): string {
     switch (this.props.formType) {
       case 'create':
         return '投稿';
@@ -102,7 +58,7 @@ class ArticleForm extends React.Component<Props> {
     }
   }
 
-  public formSubmitable() {
+  public formSubmitable(): boolean {
     return (this.props.title !== '' && this.props.content !== '');
   }
 
@@ -116,41 +72,87 @@ class ArticleForm extends React.Component<Props> {
             onChange={e => this.props.updateTitle(e.target.value)}
             value={title}
             placeholder="タイトル"
-            className="w-100 px-1 py-2"
           />
         </div>
         <div className="container-fluid px-0 py-1">
           <div className="row w-100 mx-0">
-            <div className="col s-12 m-6 px-0">
+            <div className="col-6 px-0">
               <ContentTextarea
                 onChange={e => this.props.updateContent(e.target.value)}
                 value={content}
-                placeholder="記事"
-                className="w-100 px-1 py-2"
+                placeholder="記事を書く"
               />
             </div>
-            <div className="col s-12 m-6 px-0">
+            <div className="col-6 px-0">
               <ArticlePreview title={title} content={content} />
             </div>
           </div>
         </div>
         <FormSubmitButton
           disabled={!this.formSubmitable()}
-          text={this.submitText()}
+          text={this.submitButtonText()}
         />
       </form>
     );
   }
+
+  private postArticle(): void {
+    const { title, content } = this.props;
+    axios.post(this.postURL(), this.parameters())
+      .then((res) => {
+        this.backToHome();
+        this.props.setArticle(title, content);
+      }).catch(error =>
+        alert(error)
+      );
+  }
+
+  private updateArticle(): void {
+    axios.patch(this.articleURL(), this.parameters())
+      .then(() =>
+        this.props.history.push(this.articleURL()),
+      ).catch(error =>
+        alert(error)
+      );
+  }
+
+  private postURL(): string {
+    const userIdentifier = this.props.auth.currentUser.identifier;
+    return `${API_URL}/users/${userIdentifier}/articles`;
+  }
+
+  private articleURL(): string {
+    const userIdentifier = this.props.auth.currentUser.identifier;
+    const articleIdentifier = this.props.match.params.identifier;
+    return `${API_URL}/users/${userIdentifier}/articles/${articleIdentifier}`;
+  }
+
+  private parameters(): any {
+    return ({
+      article: {
+        title: this.props.title,
+        content: this.props.content,
+      },
+    });
+  }
+
+  private backToHome() {
+    this.props.history.push('/');
+  }
 }
 
-const TitleInput = styledComponents.input`
-  border: '1px solid #E0E0E0';
-  fontSize: '24px';
+const TitleInput = styledComponents.input.attrs({
+  className: 'w-100 px-1 py-2',
+})`
+  border: 1px solid #E0E0E0;
+  font-size: 24px;
   outline: 0;
 `;
-const ContentTextarea = styledComponents.textarea`
-  height: '70vh';
-  border: '1px solid #E0E0E0';
+const ContentTextarea = styledComponents.textarea.attrs({
+  className: 'w-100 px-1 py-2',
+})`
+  height: 70vh;
+  border: 1px solid #E0E0E0;
   outline: 0;
 `;
 

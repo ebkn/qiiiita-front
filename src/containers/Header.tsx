@@ -12,8 +12,10 @@ const Header: React.SFC<HeaderProps> = (props: HeaderProps) => {
   const { loggedIn, currentUser } = props.auth;
   return (
     <header className="sticky-top d-flex justify-content-left px-4 py-2 light-green">
-      <div className="py-1">
-        <Link to="/" className="white-text">Qiiiita</Link>
+      <div className="py-0">
+        <Link to="/" className="white-text">
+          <h4 className="py-0 my-0">Qiiiita</h4>
+        </Link>
       </div>
       { loggedIn ? (
           <div className="w-100 m-0 p-0 d-flex justify-content-end">
