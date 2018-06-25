@@ -8,6 +8,7 @@ export interface Article {
   content: string;
   created_at: string;
   updated_at: string;
+  comments_count: number;
   user: User;
 }
 

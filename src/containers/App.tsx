@@ -9,7 +9,7 @@ import Auth from './Auth';
 import User from './User';
 import ArticleList from './ArticleList';
 import Article from './Article';
-import ArticlePost from '../components/ArticlePost';
+import ArticlePost from './ArticlePost';
 import ArticleEdit from './ArticleEdit';
 import Header from './Header';
 import FooterBar from '../components/FooterBar';
@@ -17,9 +17,7 @@ import FooterBar from '../components/FooterBar';
 import { RootState } from '../state';
 import { authAsyncActions } from '../actions/auth';
 
-import { API_URL } from '../config';
-
-const AUTH_URL = `${API_URL}/auth`;
+import { API_URLS } from '../config';
 
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
@@ -38,17 +36,17 @@ class App extends React.Component<Props> {
             <Switch>
               <Route exact={true} path="/" component={ArticleList} />
               <Route exact={true} path="/login" component={Auth} />
-              <Route exact={true} path="/users/:identifier" component={User} />
+              <Route exact={true} path="/:username" component={User} />
               <Route
                 exact={true}
-                path="/users/:userIdentifier/articles/new"
+                path="/:username/articles/new"
                 render={() => (
                   loggedIn ? <ArticlePost /> : <Redirect to="/login" />
                 )}
               />
-              <Route exact={true} path="/users/:userIdentifier/articles/:identifier" component={Article} />
+              <Route exact={true} path="/:username/:identifier" component={Article} />
               <Route
-                path="/users/:userIdentifier/articles/:identifier/edit"
+                path="/:username/:identifier/edit"
                 render={() => (
                   loggedIn ? <ArticleEdit /> : <Redirect to="/login" />
                 )}
@@ -75,7 +73,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any, RootState>) => ({
         return;
       }
       dispatch(authAsyncActions.startedLogin({}));
-      axios.post(AUTH_URL, { user: currentUser })
+      axios.post(API_URLS.auth(), { user: currentUser })
         .then(res =>
           dispatch(authAsyncActions.doneLogin({
             params: {}, result: { currentUser: res.data },

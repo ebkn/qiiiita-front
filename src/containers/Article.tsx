@@ -11,12 +11,12 @@ import { ArticleState } from '../reducers/article';
 import { articleAsyncActions } from '../actions/article';
 import { editingArticleActions } from '../actions/editingArticle';
 
-import { API_URL } from '../config';
+import { API_URLS } from '../config';
 
 interface OwnProps {
   match: {
     params: {
-      userIdentifier: string;
+      username: string;
       identifier: string;
     };
   };
@@ -25,7 +25,7 @@ interface OwnProps {
   };
 }
 interface PathTypes {
-  userIdentifier: string;
+  username: string;
   identifier: string;
 }
 type Props = OwnProps & RouteComponentProps<PathTypes> &
@@ -33,14 +33,14 @@ type Props = OwnProps & RouteComponentProps<PathTypes> &
 
 class Article extends React.Component<Props> {
   public componentDidMount(): void {
-    const { userIdentifier, identifier } = this.props.match.params;
-    this.props.fetchArticle(userIdentifier, identifier);
+    const { identifier } = this.props.match.params;
+    this.props.fetchArticle(identifier);
   }
 
   public editable(): boolean {
-    const { userIdentifier } = this.props.match.params;
+    const { username } = this.props.match.params;
     const { currentUser } = this.props.auth;
-    return currentUser.identifier === userIdentifier;
+    return currentUser.name === username;
   }
 
   public moveToEditPage(e: React.FormEvent<HTMLButtonElement>): void {
@@ -70,8 +70,8 @@ class Article extends React.Component<Props> {
   }
 
   private editArticleURL(): string {
-    const { userIdentifier, identifier } = this.props.match.params;
-    return `/users/${userIdentifier}/articles/${identifier}/edit`;
+    const { username, identifier } = this.props.match.params;
+    return `/${username}/${identifier}/edit`;
   }
 }
 
@@ -92,10 +92,9 @@ const mapStateToProps = (state: RootState) => ({
   article: state.article,
 });
 const mapDispatchToProps = (dispatch: Dispatch<any, RootState>) => ({
-  fetchArticle: (userIdentifier: string, identifier: string) => {
-    const FETCH_ARTICLE_URL = `${API_URL}/users/${userIdentifier}/articles/${identifier}`;
+  fetchArticle: (identifier: string) => {
     dispatch(articleAsyncActions.startedFetch({}));
-    axios.get(FETCH_ARTICLE_URL)
+    axios.get(API_URLS.fetchArticle(identifier))
       .then(res =>
         dispatch(articleAsyncActions.doneFetch({
           params: {}, result: { article: res.data },

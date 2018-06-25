@@ -20,7 +20,7 @@ const Header: React.SFC<HeaderProps> = (props: HeaderProps) => {
       { loggedIn ? (
           <div className="w-100 m-0 p-0 d-flex justify-content-end">
             <Link
-              to={`/users/${currentUser.identifier}/articles/new`}
+              to={`/${currentUser.name}/articles/new`}
               className="white-text px-2"
             >
               投稿する

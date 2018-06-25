@@ -15,6 +15,7 @@ const initialState: ArticleState = {
     content: '',
     created_at: '',
     updated_at: '',
+    comments_count: 0,
     user: {
       uid: '',
       identifier: '',

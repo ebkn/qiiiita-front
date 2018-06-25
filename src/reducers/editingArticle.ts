@@ -24,4 +24,10 @@ export const editingArticleReducer = reducerWithInitialState(initialState)
       title: payload.title,
       content: payload.content,
     });
+  })
+  .case(editingArticleActions.clearArticle, (state, payload) => {
+    return (Object as any).assign({}, state, {
+      title: '',
+      content: '',
+    });
   });

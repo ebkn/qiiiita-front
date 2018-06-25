@@ -10,9 +10,7 @@ import { RootState } from '../state';
 import { ArticleListState } from '../reducers/articleList';
 import { articleListAsyncActions } from '../actions/articleList';
 
-import { API_URL } from '../config';
-
-const FETCH_ARTICLE_LIST_URL = `${API_URL}/articles`;
+import { API_URLS } from '../config';
 
 interface OwnProps {
   fetchArticleList(): void;
@@ -46,7 +44,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: Dispatch<any, RootState>) => ({
   fetchArticleList: () => {
     dispatch(articleListAsyncActions.startedFetch({}));
-    axios.get(FETCH_ARTICLE_LIST_URL)
+    axios.get(API_URLS.fetchArticleList())
       .then(res =>
         dispatch(articleListAsyncActions.doneFetch({
           params: {}, result: { articleList: res.data },

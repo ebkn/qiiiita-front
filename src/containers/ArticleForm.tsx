@@ -11,7 +11,7 @@ import FormSubmitButton from '../components/FormSubmitButton';
 import { RootState } from '../state';
 import { editingArticleActions } from '../actions/editingArticle';
 
-import { API_URL } from '../config';
+import { API_URLS } from '../config';
 
 interface OwnProps {
   formType: string;
@@ -98,7 +98,7 @@ class ArticleForm extends React.Component<Props> {
 
   private postArticle(): void {
     const { title, content } = this.props;
-    axios.post(this.postURL(), this.parameters())
+    axios.post(API_URLS.createArticle(), this.parameters())
       .then((res) => {
         this.backToHome();
         this.props.setArticle(title, content);
@@ -108,7 +108,8 @@ class ArticleForm extends React.Component<Props> {
   }
 
   private updateArticle(): void {
-    axios.patch(this.articleURL(), this.parameters())
+    const { identifier } = this.props.match.params;
+    axios.patch(API_URLS.fetchArticle(identifier), this.parameters())
       .then(() =>
         this.props.history.push(this.articleURL()),
       ).catch(error =>
@@ -116,15 +117,10 @@ class ArticleForm extends React.Component<Props> {
       );
   }
 
-  private postURL(): string {
-    const userIdentifier = this.props.auth.currentUser.identifier;
-    return `${API_URL}/users/${userIdentifier}/articles`;
-  }
-
   private articleURL(): string {
-    const userIdentifier = this.props.auth.currentUser.identifier;
-    const articleIdentifier = this.props.match.params.identifier;
-    return `${API_URL}/users/${userIdentifier}/articles/${articleIdentifier}`;
+    const { name } = this.props.auth.currentUser;
+    const { identifier } = this.props.match.params;
+    return `/${name}/articles/${identifier}`;
   }
 
   private parameters(): any {

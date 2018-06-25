@@ -11,7 +11,6 @@ const initialState: UserState = {
   isFetching: false,
   user: {
     uid: '',
-    identifier: '',
     name: '',
     email: '',
     photoURL: '',

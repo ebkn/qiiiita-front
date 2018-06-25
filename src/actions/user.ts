@@ -2,7 +2,6 @@ import { actionCreatorFactory, Success, Failure } from 'typescript-fsa';
 
 export interface User {
   uid: string;
-  identifier: string;
   name: string;
   email: string;
   photoURL: string;

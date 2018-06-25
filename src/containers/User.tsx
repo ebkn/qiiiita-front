@@ -8,25 +8,25 @@ import axios from 'axios';
 import { RootState } from '../state';
 import { userAsyncActions } from '../actions/user';
 
-import { API_URL } from '../config';
+import { API_URLS } from '../config';
 
 interface OwnProps {
   match: {
     params: {
-      identifier: string;
+      username: string;
     };
   };
 }
 interface PathTypes {
-  identifier: string;
+  username: string;
 }
 type Props = OwnProps & RouteComponentProps<PathTypes> &
   ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 class User extends React.Component<Props> {
   public componentDidMount() {
-    const { identifier } = this.props.match.params;
-    this.props.doFetchUser(identifier);
+    const { username} = this.props.match.params;
+    this.props.doFetchUser(username);
   }
 
   public isLoggedInUser() {
@@ -49,10 +49,9 @@ const mapStateToProps = (state: RootState) => ({
   user: state.user,
 });
 const mapDispatchToProps = (dispatch: Dispatch<any, RootState>) => ({
-  doFetchUser: (identifier: string) => {
+  doFetchUser: (name: string) => {
     dispatch(userAsyncActions.startedFetch({}));
-    const FETCH_USER_URL = `${API_URL}/users/${identifier}`;
-    axios.get(FETCH_USER_URL)
+    axios.get(API_URLS.fetchUser(name))
       .then(res =>
         dispatch(userAsyncActions.doneFetch({
           params: {}, result: { user: res.data },

@@ -2,14 +2,12 @@ import * as React from 'react';
 import * as firebase from 'firebase';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { RootState } from '../state';
 import { authActions } from '../actions/auth';
 
 interface PathTypes {}
-type Props = RouteComponentProps<PathTypes> &
-  ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 const Auth: React.SFC<Props> = (props: Props) => (
   <div className="container bg-white">
@@ -43,6 +41,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any, RootState>) => ({
       );
   },
 });
-export default withRouter(connect(
+export default connect(
   mapStateToProps, mapDispatchToProps,
-)(Auth));
+)(Auth);

@@ -51,7 +51,7 @@ class HeaderAvatarButton extends React.Component<Props, State> {
           { this.state.collapse ?
             <Menu>
               <Link
-                to={`/users/${currentUser.identifier}`}
+                to={`/${currentUser.name}`}
                 className="d-block py-2 grey-text"
               >
                 <p className="m-0">マイページ</p>
