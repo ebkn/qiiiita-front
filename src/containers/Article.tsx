@@ -56,20 +56,24 @@ class Article extends React.Component<Props> {
   public render() {
     const { article } = this.props.article;
     return (
-      <div className="container bg-white">
-        { this.editable() ?
-          <StyledButton onClick={e => this.moveToEditPage(e)}>
-            編集
-          </StyledButton>
-        : null }
-        <h1 className="black-text font-weight-bold py-4">
-          {article.title}
-        </h1>
-        <ContentWrapper>
-          <ReactMarkdown source={article.content} />
-        </ContentWrapper>
-        <CommentList />
-        <CommentPost />
+      <div className="p-0 m-0">
+        <div className="container px-4 py-3 bg-white">
+          { this.editable() ?
+            <StyledButton onClick={e => this.moveToEditPage(e)}>
+              編集
+            </StyledButton>
+          : null }
+          <h1 className="black-text font-weight-bold py-4">
+            {article.title}
+          </h1>
+          <ContentWrapper>
+            <ReactMarkdown source={article.content} />
+          </ContentWrapper>
+        </div>
+        <div className="container px-4 py-3 mt-3 bg-white">
+          <CommentList />
+          <CommentPost />
+        </div>
       </div>
     );
   }

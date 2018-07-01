@@ -12,7 +12,7 @@ const CommentList: React.SFC<Props> = (props: Props) => {
   return (
     <div>
       { commentList.map(comment => (
-        <CommentInList comment={comment} />
+        <CommentInList comment={comment} key={comment.identifier} />
       ))}
     </div>
   );

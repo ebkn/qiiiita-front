@@ -54,7 +54,7 @@ class CommentPost extends React.Component<Props, State> {
 
   public render() {
     return (
-      <div className="container-fluid px-0 py-5">
+      <div className="container-fluid px-0 pt-5 pb-2">
         <div className="container-fluid px-0 d-flex justify-content-start white">
           <Avatar />
           <p className="px-1 black-text">コメントを投稿する</p>
