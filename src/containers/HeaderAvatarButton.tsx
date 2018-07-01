@@ -3,7 +3,7 @@ import * as firebase from 'firebase';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { withRouter, RouteComponentProps, Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styledComponents from 'styled-components';
 
 import { RootState } from '../state';
 import { authActions, CurrentUser } from '../actions/auth';
@@ -73,7 +73,7 @@ class HeaderAvatarButton extends React.Component<Props, State> {
 const imageWrapperStyle: React.CSSProperties = {
   position: 'relative',
 };
-const StyledImg = styled.img.attrs({
+const StyledImg = styledComponents.img.attrs({
   className: 'd-block',
 })`
   width: 30px;
@@ -81,7 +81,7 @@ const StyledImg = styled.img.attrs({
   border: 1px solid white;
   border-radius: 3px;
 `;
-const Menu = styled.div`
+const Menu = styledComponents.div`
   position: absolute;
   top: 40px;
   left: -80px;

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
-import styled from 'styled-components';
+import styledComponents from 'styled-components';
 
 import { RootState } from '../state';
 import { Comment, commentListActions } from '../actions/commentList';
@@ -86,7 +86,7 @@ class CommentPost extends React.Component<Props, State> {
   }
 }
 
-const Avatar = styled.div.attrs({
+const Avatar = styledComponents.div.attrs({
   className: 'mr-2',
 })`
   width: 30px;
@@ -94,14 +94,14 @@ const Avatar = styled.div.attrs({
   border: 1px solid #E0E0E0;
   border-radius: 2px;
 `;
-const StyledTextarea = styled.textarea.attrs({
+const StyledTextarea = styledComponents.textarea.attrs({
   className: 'w-100 m-0 p-2 white text-grey',
 })`
   height: 100px;
   border: 1px solid #E0E0E0;
   border-radius: 2px;
 `;
-const SubmitButton = styled.button.attrs({
+const SubmitButton = styledComponents.button.attrs({
   className: 'px-3 py-1 light-green text-white',
 })`
   border: 1px solid #E0E0E0;

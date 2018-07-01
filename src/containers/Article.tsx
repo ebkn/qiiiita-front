@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import * as ReactMarkdown from 'react-markdown';
 import axios from 'axios';
-import styled from 'styled-components';
+import styledComponents from 'styled-components';
 
 import CommentList from './CommentList';
 import CommentPost from './CommentPost';
@@ -80,13 +80,13 @@ class Article extends React.Component<Props> {
   }
 }
 
-const StyledButton = styled.button.attrs({
+const StyledButton = styledComponents.button.attrs({
   className: 'px-3 py-1 light-green text-white',
 })`
   border: 1px solid #E0E0E0;
   border-radius: 2px;
 `;
-const ContentWrapper = styled.div.attrs({
+const ContentWrapper = styledComponents.div.attrs({
   className: 'py-2 pb-4',
 })`
   overflow-x: scroll;

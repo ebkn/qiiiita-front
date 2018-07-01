@@ -25,7 +25,7 @@ type Props = OwnProps & RouteComponentProps<PathTypes> &
 
 class User extends React.Component<Props> {
   public componentDidMount() {
-    const { username} = this.props.match.params;
+    const { username } = this.props.match.params;
     this.props.doFetchUser(username);
   }
 

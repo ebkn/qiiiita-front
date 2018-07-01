@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactMarkdown from 'react-markdown';
-import styled from 'styled-components';
+import styledComponents from 'styled-components';
 
 interface Props {
   title: string;
@@ -16,7 +16,7 @@ const ArticlePreview: React.StatelessComponent<Props> = ({ title, content }) => 
   );
 };
 
-const PreviewBox = styled.div.attrs({
+const PreviewBox = styledComponents.div.attrs({
   className: 'w-100 px-1 py-2 white',
 })`
   height: 70vh;

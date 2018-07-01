@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styledComponents from 'styled-components';
 
 interface Props {
   disabled: boolean;
@@ -17,7 +17,7 @@ const FormSubmitButton: React.SFC<Props> = ({ disabled, text }) => {
   );
 };
 
-const StyledButton = styled.button.attrs({
+const StyledButton = styledComponents.button.attrs({
   className: 'px-3 py-1 light-green text-white',
 })`
   border: 1px solid #E0E0E0;

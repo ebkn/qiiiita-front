@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styledComponents from 'styled-components';
 
 import { Article } from '../actions/article';
 
@@ -32,13 +32,13 @@ const ArticleInList: React.StatelessComponent<Props> = ({ article }) => {
   );
 };
 
-const BorderedComponent = styled.div.attrs({
+const BorderedComponent = styledComponents.div.attrs({
   className: 'px-1 py-3 d-flex justify-content-between',
 })`
   border-top: 1px solid #E0E0E0;
   border-bottom: 1px solid #E0E0E0;
 `;
-const UserImage = styled.img`
+const UserImage = styledComponents.img`
   width: 40px;
   height: 40px;
   border: none;
