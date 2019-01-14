@@ -754,9 +754,9 @@ atob@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.1.tgz#ae2d5a729477f289d60dd7f96a6314a22dd6c22a"
 
-awesome-typescript-loader@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/awesome-typescript-loader/-/awesome-typescript-loader-5.1.0.tgz#36879ced2b16311dfa1e1e4200a583cea7a03671"
+awesome-typescript-loader@^5.2.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/awesome-typescript-loader/-/awesome-typescript-loader-5.2.1.tgz#a41daf7847515f4925cdbaa3075d61f289e913fc"
   dependencies:
     chalk "^2.4.1"
     enhanced-resolve "^4.0.0"
@@ -765,6 +765,7 @@ awesome-typescript-loader@^5.1.0:
     micromatch "^3.1.9"
     mkdirp "^0.5.1"
     source-map-support "^0.5.3"
+    webpack-log "^1.2.0"
 
 axios@^0.18.0:
   version "0.18.0"
@@ -6325,7 +6326,7 @@ webpack-dev-server@^3.1.4:
     webpack-log "^1.1.2"
     yargs "11.0.0"
 
-webpack-log@^1.0.1, webpack-log@^1.1.2:
+webpack-log@^1.0.1, webpack-log@^1.1.2, webpack-log@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/webpack-log/-/webpack-log-1.2.0.tgz#a4b34cda6b22b518dbb0ab32e567962d5c72a43d"
   dependencies:
